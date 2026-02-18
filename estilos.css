@@ -1,0 +1,259 @@
+.fondo /*Header*/ {
+  background-color: rgb(54, 124, 54);
+  padding: 3%;
+  width: 95%;
+  height: 60px;
+  display:flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Contenedor para elementos posicionados */
+}
+
+body {
+  background-color: rgb(235, 231, 219);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+#titulo /*Mi Jardin*/{
+  font-size: 90px;
+  text-align:center;
+}
+
+h1 {
+  font-family: "Phudu", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: xx-large;
+  font-weight: 800;
+  text-align: center;
+  color: rgb(4, 19, 4);
+  margin: 0;
+}
+
+h2 {
+  font-family: "Phudu", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: xx-large;
+  font-weight: 800;
+  text-align: center;
+  color: rgb(4, 19, 4);
+}
+
+button {
+  background: linear-gradient(
+    90deg,
+    rgb(141, 177, 141) 25%,
+    rgb(54, 124, 54) 73%
+  );
+  width: 95%;
+  height: 600px;
+  margin: 2% 0 0 2%;
+  display:flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-grow: 0; /*los elementos no crecen*/
+  flex-shrink: 1; /*los elementos pueden reducir su tamano a un tamano mas pequeno que su flex-basis*/
+  flex-basis: auto; /*los elementos tienen un tamano base automatico*/
+  border-radius: 8%;
+  border: none;
+  cursor: pointer;
+  transition: background-color 1.5s ease, opacity 2s ease; /* agrega opacidad a la transicion*/
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /*siempre tiene que tener 3 lados*/
+  position: relative; /*Para posicionar el texto correctamente */
+}
+
+button:hover {
+  opacity: 0.5;
+}
+
+span {
+  position: relative;
+  z-index: 2;
+}
+
+#misplantas button:hover /*boton que al pasar el raton muestra la imagen*/ {
+  background-image: url(plantitas.png);
+  background-size: cover; /*para que la imagen cubra todo el boton por dentro*/
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-position: center 80%; /*centra la imagen dentro del boton*/
+  border: solid 1px rgb(54, 124, 54);
+}
+
+#misterrarios button:hover {
+  background-image: url(terrarios.jpg);
+  background-size: cover; 
+  background-repeat: no-repeat;
+  background-position: center 80%;
+  border: solid 1px rgb(54, 124, 54);
+}
+
+#miscuidados button:hover {
+  background-image: url(cuidados.jpg);
+  background-size: cover; 
+  background-repeat: no-repeat;
+  background-position: center 80%;
+  border: solid 1px rgb(54, 124, 54);
+}
+
+/*posesion de plantas y terrarios*/
+#posesion { 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+}
+
+/*Cuadros del apartado cuidados*/
+#riego, #fertilizacion, #tierra, .texto-cuidados{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items:center;
+  margin:10%; 
+}
+
+/*Letras recuadros*/
+button, .navbar {
+  color: inherit; /* Hereda el color del texto del boton */
+  text-decoration: none; /*se aplica a enlaces*/
+}
+
+/*Buscador*/
+.navbar {
+  font-family: "Phudu", serif;
+  font-optical-sizing: auto;
+  font-style: bold;
+  font-size: large;
+  text-align: right;
+  float: right;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;  
+  align-self: flex-start;
+  z-index: 1000;
+  color: black;
+  position: absolute;
+  right: 50px; /* Distancia desde el borde derecho */
+  top: 10%; /* Centrado vertical */
+  transform: translateY(-50%); /* Ajuste fino del centrado */
+  margin: 0;
+  padding: 0;
+  width:min (1100px, 92vw);
+  margin-inline:auto;
+  height: 60px;
+  list-style-type: none; /* Quita los puntos de la lista. Se aplican a listas */
+}
+
+#BotonBusqueda, #btn-guardar {  
+  width: 30%;
+  height: 50px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: none;
+
+}
+
+.inicio {
+  font-family: "Phudu", serif;
+  font-optical-sizing: auto;
+  font-style: bold;
+  font-size: large;
+  text-align:right;
+  margin: 10%;
+  padding: 10%;
+}
+
+/*Tablas*/
+.miTabla{
+height: 50px;
+width: 50px;
+}
+
+thead {
+  background-color: rgb(54, 124, 54);
+}
+  
+table,th,td {
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  margin: 20px;
+  padding: 2px;
+
+}
+
+td {
+  text-align: center;
+}
+
+#filas {
+  background-color: rgb(123, 200, 123);
+  color: black;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  margin: 0.5%;
+  padding: 10px;
+  box-sizing: border-box;
+  
+}
+
+ul li a{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 5px;
+  top: 90px;
+  list-style-type: none; 
+  text-decoration: none;
+  visibility:hidden;
+  opacity:0;
+  z-index: 10;
+}
+
+ul li:hover a{
+visibility: visible;
+opacity: 1;
+top: 70px;
+
+}
+
+input[type="text"] {
+  border-radius: 10px;
+  padding: 2%;
+  margin: 3%;
+  background-color:rgb(235, 231, 219);
+  border-color: transparent;
+  text-align: center;
+}
+  
+input[type="date"] {
+  border-radius: 10px;
+  padding: 2%;
+  margin: 3%;
+  background-color: rgb(235, 231, 219);
+  border-color: transparent;
+  text-align: center;
+}
+  
+input[type="file"] {
+  padding: 1%;
+  margin: 3%;
+}
+
+footer {
+  background-color: rgb(54, 124, 54);
+  padding: 2%;
+  text-align: center;
+  width: 95%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página principal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Phudu:wght@300..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+  <header>
+    <div class="fondo">
+      <h1 id="titulo">Mi Jardín</h1>
+    </div>
+      <nav class="navbar">
+        <input type="text" id="buscador" placeholder="Buscar planta...">
+        <button id="BotonBusqueda">Buscar</button>
+      </nav>
+    <div id="Resultados"></div>
+  </header>
+
+  <main> <!--Primer boton de plantas que hay en posesion-->
+    <div id="misplantas">
+      <button type="button" id="cuadrado-1" onclick="window.location.href='MisPlantas.html'">
+        <span>
+          <h2><strong>Mis plantas</strong></h2>
+          <p>Plantas que tengo en posesión</p>
+        </span> 
+      </button>
+    </div><br><br>
+
+    <!--Segundo boton de terrarios en posesion-->
+    <div id="misterrarios">
+      <button type="button" id="cuadrado-2" onclick="window.location.href='MisTerrarios.html'"> 
+        <span>
+          <h2><strong>Mis terrarios</a></strong></h2>
+          <p>Terrarios que tengo en posesión</p>
+        </span>
+      </button>
+    </div><br><br>
+
+    <!--Tercer boton de los cuidados registrados-->
+    <div id="miscuidados">
+      <button type="button" id="cuadrado-3" onclick="window.location.href='Cuidados.html'"> <!--tambien se puede hacer asi(en js): document.getElementById("miBoton").addEventListener("click", function() { window.location.href = "MisPlantas.html"; });-->
+          <span>
+            <h2><strong>Cuidados</a></strong></h2>
+              <p>Riegos, fertilización y cambios de tierra.</p>
+        </span>
+      </button>
+    </div><br><br>
+  </main>
+
+  <footer>
+    <p>&copy; 2025. Mi jardín.</p>
+  </footer>
+  <script src="conexion-bd.js"></script>
+  <script src="referenciasplantitas.js"></script>
+  <script src="server.js"></script>
+</body>
+</html>
+
+
+
+
+        
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+
+
+
+        
+
+
