@@ -22,30 +22,63 @@ function crearFila(planta = null) {
 
     //creamos el contenido HTML de la fila
     fila.innerHTML = `
-        <td><input type="text" value="${planta.nombre}" data-field="nombre" placeholder="Ej: Rosa"></td>
-        `;
+        <td><input type="text" value="${planta.nombre}" class="nombre"></td>
+        <td><input type="file" class="foto"></td>
+        <td>
+            <select class="tipo">
+                <option value="">Selecciona...</option>
+                <option value="Suculenta" ${planta.tipo === 'Suculenta' ? 'selected' : ''}>Suculenta</option>
+                <option value="Cactus" ${planta.tipo === 'Cactus' ? 'selected' : ''}>Cactus</option>
+                <option value="Crasas" ${planta.tipo === 'Crasas' ? 'selected' : ''}>Crasas</option>
+                <option value="Planta con flor" ${planta.tipo === 'Planta con flor' ? 'selected' : ''}>Planta con flor</option>
+                <option value="Planta sin flor" ${planta.tipo === 'Planta sin flor' ? 'selected' : ''}>Planta sin flor</option>
+                <option value="Planta acuática" ${planta.tipo === 'Planta acuática' ? 'selected' : ''}>Planta acuática</option>
+                <option value="Árbol" ${planta.tipo === 'Árbol' ? 'selected' : ''}>Árbol</option>
+                <option value="Hierba" ${planta.tipo === 'Hierba' ? 'selected' : ''}>Hierba</option>
+               
+            </select>
+        </td>
+        <td>
+            <select class="ubicacion">
+                <option value="Salón" ${planta.ubicacion === 'Salón' ? 'selected' : ''}>Salón</option>
+                <option value="Cocina" ${planta.ubicacion === 'Cocina' ? 'selected' : ''}>Cocina</option>
+                <option value="Habitación" ${planta.ubicacion === 'Habitación' ? 'selected' : ''}>Habitación</option>
+                <option value="Baño" ${planta.ubicacion === 'Baño' ? 'selected' : ''}>Baño</option>
+                <option value="Terraza" ${planta.ubicacion === 'Terraza' ? 'selected' : ''}>Terraza</option>
+            </select>
+        </td>
+        <td>
+            <select class="estado">
+                <option value="Sana" ${planta.estado === 'Sana' ? 'selected' : ''}>Sana</option>
+                <option value="Enferma" ${planta.estado === 'Enferma' ? 'selected' : ''}>Enferma</option>
+                <option value="Muerta" ${planta.estado === 'Muerta' ? 'selected' : ''}>Muerta</option>
+            </select>
+        </td>
+        <td><input type="date" value="${planta.adquirida}" class="adquirida"></td>
+    `;
     return fila;
 }
 
-async function guardarCambios(){
-    //obtenemos la fila donde están los inputs
-    const tabla = document.getElementById('miTabla');
-    const tbody = tabla.querySelector('tbody'); 
-    const fila = tbody.rows[0]; //usamos la primera fila
-
-    //extraemos valores de los inputs
-    const nombre = fila.cells[0].querySelector('input').value;
-  //const foto = 
-    const tipo = fila.cells[2].querySelector('select').value;
-    const ubicacion = fila.cells[3].querySelector('select').value;
-    const estado = fila.cells[4].querySelector('select').value;
-    const adquirida = DisposableStack.cells[5].querySelector('input[type= "date"]').value;
-
-
+function anadirFila(){
+    const tbody = document.querySelectorAll('#miTabla tbody tr');
+    const nuevaFila = crearFila();
+    tbody.appendChild(nuevaFila);
 }
 
-function anadirFila(){
-    const tbody = document.getElementById('miTabla').querySelector('tbody');
-    const newRow = tbody.insertRow();
+function guardarCambios() {
+    const filas = document.querySelectorAll('#miTabla tbody tr');
+    const datos = Array.from(filas).map(fila => {
+        return {
+            id: fila.getAttribute('data-id'),
+            nombre: fila.querySelector('.nombre').value,
+            tipo: fila.querySelector('.tipo').value,
+            ubicacion: fila.querySelector('.ubicacion').value,
+            estado: fila.querySelector('.estado').value,
+            adquirida: fila.querySelector('.adquirida').value
+        };
+    });
+
+    console.log("Datos a guardar:", datos);
+    alert("Revisa la consola (F12) para ver los datos capturados.");
 }
 
