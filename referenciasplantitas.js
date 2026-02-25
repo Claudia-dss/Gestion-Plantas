@@ -19,6 +19,11 @@ function crearFila(planta = null) {
     // creamos el elemento HTML de la fila
     const fila = document.createElement('tr'); //Crea una nueva fila de tabla
     fila.setAttribute ('data-id', id);//crea una etiqueta con el id
+    fila.onclick = function() {
+        document.querySelectorAll('#miTabla tbody tr').forEach(r => r.classList.remove('marcada'));
+        this.classList.add('marcada');
+        console.log("Fila seleccionada con ID: ", id);
+    }
 
     //creamos el contenido HTML de la fila
     fila.innerHTML = `
@@ -35,7 +40,6 @@ function crearFila(planta = null) {
                 <option value="Planta acuática" ${planta.tipo === 'Planta acuática' ? 'selected' : ''}>Planta acuática</option>
                 <option value="Árbol" ${planta.tipo === 'Árbol' ? 'selected' : ''}>Árbol</option>
                 <option value="Hierba" ${planta.tipo === 'Hierba' ? 'selected' : ''}>Hierba</option>
-               
             </select>
         </td>
         <td>
@@ -60,21 +64,40 @@ function crearFila(planta = null) {
 }
 
 function anadirFila(){
-    const tbody = document.querySelectorAll('#miTabla tbody tr');
+    console.log("Botón pulsado: Añadiendo fila...");
+    const tbody = document.querySelector('#miTabla tbody');
+
+    if (!tbody) {
+        console.error("Error: No encontré el elemento tbody dentro de #miTabla");
+        return;
+    }
+
     const nuevaFila = crearFila();
     tbody.appendChild(nuevaFila);
+
+}
+
+function eliminarFilaSeleccionada() {
+    const filaParaBorrar = document.querySelector('#miTabla tr.marcada');
+
+    if(filaParaBorrar){
+        filaParaBorrar.remove();
+        console.log("Fila seleccionada eliminada con éxito.");
+    } else {
+        alert("Por favor, seleccione primero una fila para eliminar.")
+    }
 }
 
 function guardarCambios() {
-    const filas = document.querySelectorAll('#miTabla tbody tr');
+    const filas = document.querySelectorAll('#miTabla tbody');
     const datos = Array.from(filas).map(fila => {
         return {
             id: fila.getAttribute('data-id'),
-            nombre: fila.querySelector('.nombre').value,
-            tipo: fila.querySelector('.tipo').value,
-            ubicacion: fila.querySelector('.ubicacion').value,
-            estado: fila.querySelector('.estado').value,
-            adquirida: fila.querySelector('.adquirida').value
+            nombre: fila.querySelector('.nombre')?.value || "", //se añade ?.value y || "" para evitar errores si alguna fila está vacía.
+            tipo: fila.querySelector('.tipo')?.value || "",
+            ubicacion: fila.querySelector('.ubicacion')?.value || "",
+            estado: fila.querySelector('.estado')?.value || "",
+            adquirida: fila.querySelector('.adquirida')?.value || ""
         };
     });
 
