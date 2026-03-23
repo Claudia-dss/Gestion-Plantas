@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Phudu:wght@300..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="estilos.css">
     <title>Link a Mis Plantas</title>
 </head>
@@ -14,10 +15,39 @@
   <header>
     <div class="fondo">
       <h1 id="titulo">Mi Jardín</h1>
-      <nav class="navbar">
+      <div class="search"> 
         <input type="text" id="buscador" placeholder="Buscar planta...">
-        <button id="BotonBusqueda">Buscar</button>
-        <a href="plantas.html" class="inicio"><strong> Inicio </strong></a></li>
+        <button type="button" class="btn-buscador">Buscar</button>
+      </div>
+
+      <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menú</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">X</button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="mi-menu-inicio justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="MisPlantas.html">Mis Plantas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="plantas.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="MisTerrarios.html">Mis Terrarios</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="Cuidados.html">Cuidados</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -29,17 +59,23 @@
           <thead>
             <tr>
               <th>Nombre de la planta</th>
+              <th type="date--">Adquirida</th>
               <th type="img">Foto</th>
               <th class="desplegable">Tipo de la planta</th>
               <th class="desplegable">Ubicación</th>
               <th class="desplegable">Estado de la planta</th>
-              <th type="date--">Adquirida</th>
+              <th type="date--">Regada el: </th>
+              <th type="date--">Fertilizada el: </th>
+              <th type="date--">Cambio de tierra el:</th>
             </tr>
           </thead>
 
           <tbody>
             <tr>
               <td> <input type="text" class="texto"></td>
+
+              <td><input type="date" class="fecha"></td>
+
               <td> <input type="file"></td>
               <td>
                 <select class="despleg-tipo">
@@ -76,13 +112,15 @@
               </td>
 
               <td><input type="date" class="fecha"></td>
+
+              <td><input type="date" class="fecha"></td>
             </tr>
           </tbody>
           <tfoot></tfoot>
         </table>
-      <button type="button" onclick="anadirFila()" id="filas">+</button>
+      <button type="button" onclick="crearFila()" id="filas">+</button>
       <button type="button" onclick="eliminarFilaSeleccionada()" id="borrar-filas">🗑️</button>
-      <button type="button" onclick="guardarCambios()" id="btn-guardar"> Guardar cambios</button>
+      <button type="button" onclick="guardarCambios()" class="btn-guardar"> Guardar cambios</button>
     </form>
   </section> <br>
   </main>
@@ -91,8 +129,7 @@
   <p>&copy; 2025. Mi jardín.</p>
   </footer>
 
-  <script src="conexion-bd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script src="referenciasplantitas.js"></script>
-  <script src="server.js"></script>
 </body>
 </html>

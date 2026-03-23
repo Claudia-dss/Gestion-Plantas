@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Phudu:wght@300..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="estilos.css">
 </head>
 
@@ -13,80 +14,77 @@
   <header>
     <div class="fondo">
       <h1 id="titulo">Mi Jardín</h1>
-      <nav class="navbar">
-        <input type="text" id="buscador" placeholder="Buscar planta...">
-        <button id="BotonBusqueda">Buscar</button>
-        <a href="plantas.html" class="inicio"><strong> Inicio </strong></a></li>
+        <div class="search"> 
+          <input type="text" id="buscador" placeholder="Buscar planta...">
+          <button type="button" class="btn-buscador">Buscar</button>
+        </div>
+
+      <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menú</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">X</button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="mi-menu-inicio justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="Cuidados.html">Cuidados</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="plantas.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="MisPlantas.html">Mis Plantas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="MisTerrarios.html">Mis Terrarios</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
   <main>
-    <section id="riego">
-        <h2 class="texto-cuidados"><strong>Riegos</strong></h2>
-        <table id="miTabla" style="width: 600px;" action="/formulario" method="POST">
+    <section id="cuidados">
+        <h2 class="texto-cuidados"><strong>Cuidados requeridos</strong></h2>
+        <table id="miTabla" style="width: 1000px;" action="/formulario" method="POST">
           <thead>
             <tr>
               <th>Nombre de la planta</th>
               <th type="date--">Regada</th>
               <th>Proximo riego</th>
+              <th type="date--">Fertilizada</th>
+              <th>Proxima Fertilización</th>
+              <th type="date--">Tierra cambiada</th>
+              <th>Proximo cambio</th>
             </tr>
           </thead>
           <tbody>
             <td> <input type="text"></td>
             <td><input type="date"></td>
             <td><input type="date"></td>
+            <td><input type="date"></td>
+            <td><input type="date"></td>
+            <td><input type="date"></td>
+            <td><input type="date"></td>
           </tbody>
           <tfoot></tfoot>
         </table>
-        <button onclick="añadirFila()" id="filas">+</button>
       </section>
   
-      <section id="fertilizacion">
-        <h2 class="texto-cuidados"><strong>Fertilización</strong></h2>
-        <table id="miTabla" style="width: 600px;" action="/formulario" method="POST">
-          <thead>
-            <tr>
-              <th>Nombre de la planta</th>
-              <th>Fertilizada</th>
-              <th>Próxima fertilización</th>
-            </tr>
-          </thead>
-          <tbody>
-            <td> <input type="text"></td>
-            <td><input type="date"></td>
-            <td><input type="date"></td>
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-        <button onclick="añadirFila()" id="filas">+</button>
-      </section>
-  
-      <section id="tierra">
-        <h2 class="texto-cuidados"><strong>Cambio de tierra</strong></h2>
-        <table id="miTabla" style="width: 600px;" action="/formulario" method="POST">
-          <thead>
-            <tr>
-              <th>Nombre de la planta</th>
-              <th type="date">Cambio</th>
-              <th>Próximo cambio</th>
-            </tr>
-          </thead>
-          <tbody>
-            <td> <input type="text"></td>
-            <td><input type="date"></td>
-            <td><input type="date"></td>
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-        <button onclick="añadirFila()" id="filas">+</button>
-      </section>
-      <button onclick="guardarDatos()" id="guardar">Guardar datos.</button>
+      <button type="button" onclick="guardarCambios()" class="btn-guardar"> Guardar cambios</button>
     </main>
   </main>
   <footer>
     <p>&copy; 2025. Mi jardín.</p>
- </footer>
-  <script src="conexion-bd.js"></script>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script src="referenciasplantitas.js"></script>
-  <script src="server.js"></script>
 </body>
