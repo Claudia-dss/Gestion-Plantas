@@ -215,7 +215,7 @@ button, .navbar {
 /*Tablas*/
 #miTabla{
 height: 50px;
-width: 70px;
+max-width: 40px;
 border: none;
 }
 
@@ -252,6 +252,13 @@ td {
   margin: 0.5%;
   padding: 10px;
   box-sizing: border-box;
+}
+
+/*Cuidado vencido*/
+.vencido {
+    background-color: rgba(164, 89, 89, 0.2);
+    color: rgb(150, 30, 30);
+    font-weight: bold;
 }
 
 .mi-menu-inicio li:hover a {

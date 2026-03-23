@@ -76,7 +76,7 @@ async function guardarCambios(){
 
     //extraemos valores de los inputs
     const nombre = fila.cells[0].querySelector('input').value;
-  //const foto = 
+    const foto = fila.cell[1].querySelector('input[type= "file"]').value;
     const tipo = fila.cells[2].querySelector('select').value;
     const ubicacion = fila.cells[3].querySelector('select').value;
     const estado = fila.cells[4].querySelector('select').value;
@@ -85,7 +85,7 @@ async function guardarCambios(){
     const respuesta = await fetch('/api/plantas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, tipo, ubicacion, estado, adquirida })
+        body: JSON.stringify({ nombre, foto, tipo, ubicacion, estado, adquirida })
     });
 
     const resultado = await respuesta.json();
