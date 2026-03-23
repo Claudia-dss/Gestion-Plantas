@@ -59,6 +59,11 @@ function crearFila(planta = null) {
         <td><input type="date" value="${planta.adquirida}" data-field="adquirida"></td>
     `;
 
+    fila.addEventListener('click', function () {
+    document.querySelectorAll('#miTabla tr.marcada').forEach(f => f.classList.remove('marcada'));// Desmarca cualquier fila previamente marcada
+    this.classList.add('marcada');// Marca la fila clickada
+});
+
     tbody.appendChild(fila);
     return fila;
 }
@@ -76,7 +81,17 @@ async function guardarCambios(){
     const ubicacion = fila.cells[3].querySelector('select').value;
     const estado = fila.cells[4].querySelector('select').value;
     const adquirida = fila.cells[5].querySelector('input[type= "date"]').value;
+
+    const respuesta = await fetch('/api/plantas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, tipo, ubicacion, estado, adquirida })
+    });
+
+    const resultado = await respuesta.json();
+    alert(resultado.message);
 }
+
 
 function eliminarFilaSeleccionada() {
     const filaParaBorrar = document.querySelector('#miTabla tr.marcada');
