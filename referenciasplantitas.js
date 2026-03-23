@@ -77,3 +77,14 @@ async function guardarCambios(){
     const estado = fila.cells[4].querySelector('select').value;
     const adquirida = fila.cells[5].querySelector('input[type= "date"]').value;
 }
+
+function eliminarFilaSeleccionada() {
+    const filaParaBorrar = document.querySelector('#miTabla tr.marcada');
+
+    if(filaParaBorrar){
+        filaParaBorrar.remove();
+        console.log("Fila seleccionada eliminada con éxito.");
+    } else {
+        alert("Por favor, seleccione primero una fila para eliminar.")
+    }
+}
