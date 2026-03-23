@@ -39,52 +39,50 @@
 
           <tbody>
             <tr>
-            <td> <input type="text"></td>
-            <td> <input type="file"></td>
-            <td>
-              <select id="despleg-tipo">
-                <div class="contenido-desplegable">
+              <td> <input type="text" class="texto"></td>
+              <td> <input type="file"></td>
+              <td>
+                <select class="despleg-tipo">
+                    <option value="">Selecciona un tipo</option>
+                    <option value="Suculenta">Suculenta</option>
+                    <option value="Cactus">Cactus</option>
+                    <option value="Crasas">Crasas</option>
+                    <option value="Planta con flor">Planta con flor</option>
+                    <option value="Planta sin flor">Planta sin flor</option>
+                    <option value="Planta acuática">Planta acuática</option>
+                    <option value="Árbol">Árbol</option>
+                    <option value="Hierba">Hierba</option>
+                </select>
+              </td>
+
+              <td>
+                <select id="despleg-ubi">
                   <option value="">Selecciona un tipo</option>
-                  <option value="Suculenta">Suculenta</option>
-                  <option value="Cactus">Cactus</option>
-                  <option value="Crasas">Crasas</option>
-                  <option value="Planta con flor">Planta con flor</option>
-                  <option value="Planta sin flor">Planta sin flor</option>
-                  <option value="Planta acuática">Planta acuática</option>
-                  <option value="Árbol">Árbol</option>
-                  <option value="Hierba">Hierba</option>
-                </div>
-              </select>
-            </td>
+                  <option value="Salón">Salón</option>
+                  <option value="Habitación">Habitación</option>
+                  <option value="Baño">Baño</option>
+                  <option value="Cocina">Cocina</option>
+                  <option value="Terraza">Terraza</option>
+                </select>
+              </td>
 
-            <td>
-              <select id="despleg-ubi">
-                <option value="">Selecciona un tipo</option>
-                <option value="Salón">Salón</option>
-                <option value="Habitación">Habitación</option>
-                <option value="Baño">Baño</option>
-                <option value="Cocina">Cocina</option>
-                <option value="Terraza">Terraza</option>
-              </select>
-            </td>
-            <td>
-              <select id="despleg-estado">
-                <div class="contenido-desplegable"></div>
-                <option value="">Selecciona un tipo</option>
-                <option value="Sana">Sana</option>
-                <option value="Enferma">Enferma</option>
-                <option value="Muerta">Muerta</option> 
-              </select>
-            </td>
+              <td>
+                <select id="despleg-estado">
+                  <option value="">Selecciona un tipo</option>
+                  <option value="Sana">Sana</option>
+                  <option value="Enferma">Enferma</option>
+                  <option value="Muerta">Muerta</option>                
+                </select>
+              </td>
 
-            <td><input type="date"></td>
+              <td><input type="date" class="fecha"></td>
             </tr>
           </tbody>
           <tfoot></tfoot>
         </table>
-      <button type="button" onclick="crearFila()" id="filas">+</button>
-      <button type="button" onclick="guardarCambios()" id="btn-guardar"> Guardar cambios </button>
-      <button type="button" onclick="eliminarFilaSeleccionada()" id="btn-guardar"> Eliminar Fila </button>
+      <button type="button" onclick="anadirFila()" id="filas">+</button>
+      <button type="button" onclick="eliminarFilaSeleccionada()" id="borrar-filas">🗑️</button>
+      <button type="button" onclick="guardarCambios()" id="btn-guardar"> Guardar cambios</button>
     </form>
   </section> <br>
   </main>

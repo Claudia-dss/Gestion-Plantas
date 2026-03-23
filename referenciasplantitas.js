@@ -20,6 +20,11 @@ function crearFila(planta = null) {
     const tbody = document.getElementById('miTabla').querySelector('tbody');
     const fila = document.createElement('tr'); //Crea una nueva fila de tabla
     fila.setAttribute ('data-id', id);//crea una etiqueta con el id
+    fila.onclick = function() {
+        document.querySelectorAll('#miTabla tbody tr').forEach(r => r.classList.remove('marcada'));
+        this.classList.add('marcada');
+        console.log("Fila seleccionada con ID: ", id);
+    }
 
     //creamos el contenido HTML de la fila
     fila.innerHTML = `
