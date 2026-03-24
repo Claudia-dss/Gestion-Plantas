@@ -5,7 +5,7 @@
   height: 100px;
   display:flex;
   text-align: center;
-  justify-content: space-between;
+  justify-content:space-evenly;
   box-sizing: border-box;
   position: relative; /* Contenedor para elementos posicionados */
 }
@@ -164,6 +164,7 @@ span {
   flex-direction: column;
   justify-content: center;
   align-items:center;
+  max-height: ;
 }
 
 /*Cuadros del apartado cuidados*/
@@ -214,9 +215,9 @@ button, .navbar {
 
 /*Tablas*/
 #miTabla{
-height: 50px;
-max-width: 40px;
+max-width: 10%;
 border: none;
+
 }
 
 thead {
@@ -227,7 +228,7 @@ table,th,td {
   border-radius: 10px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
   margin: 20px;
-  padding: 2px;
+  padding: 5px;
   text-align: center;
 }
 
@@ -247,7 +248,7 @@ td {
   background-color: rgb(123, 200, 123);
   color: black;
   text-align: center;
-  width: 30px;
+  max-width: 30px;
   height: 30px;
   margin: 0.5%;
   padding: 10px;

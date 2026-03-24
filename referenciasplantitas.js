@@ -68,7 +68,7 @@ function crearFila(planta = null) {
     return fila;
 }
 
-async function guardarCambios(){
+async function guardarCambios() {
     //obtenemos la fila donde están los inputs
     const tabla = document.getElementById('miTabla');
     const tbody = tabla.querySelector('tbody'); 
@@ -76,16 +76,17 @@ async function guardarCambios(){
 
     //extraemos valores de los inputs
     const nombre = fila.cells[0].querySelector('input').value;
-    const foto = fila.cell[1].querySelector('input[type= "file"]').value;
-    const tipo = fila.cells[2].querySelector('select').value;
-    const ubicacion = fila.cells[3].querySelector('select').value;
-    const estado = fila.cells[4].querySelector('select').value;
-    const adquirida = fila.cells[5].querySelector('input[type= "date"]').value;
+    const adquirida = fila.cells[1].querySelector('input[type= "date"]').value;
+    const foto = fila.cells[2].querySelector('input[type= "file"]').value;
+    const tipo = fila.cells[3].querySelector('select').value;
+    const ubicacion = fila.cells[4].querySelector('select').value;
+    const estado = fila.cells[5].querySelector('select').value;
+    
 
     const respuesta = await fetch('/api/plantas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, foto, tipo, ubicacion, estado, adquirida })
+        body: JSON.stringify({ nombre, adquirida, foto, tipo, ubicacion, estado })
     });
 
     const resultado = await respuesta.json();

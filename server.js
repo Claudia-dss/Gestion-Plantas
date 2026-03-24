@@ -36,14 +36,14 @@ function queryDB(sql, values = []){
 app.post('/api/plantas', async (req, res) => {
 
     //los datos de la planta se envían en el cuerpo de la peticion
-    const {nombre, tipo, ubicación, estado, adquirida} = req.body;
+    const {nombre,  adquirida, foto, tipo, ubicación, estado} = req.body;
 
     //consulta SQL para insertar datos
     const sql = `
-        INSERT INTO plantas (nombre, tipo, ubicación, estado, fecha_adquisicion, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra)
-        VALUES ( ?, ?, ?, ?, ?, NULL, NULL, NULL)
+        INSERT INTO plantas (nombre, foto, tipo, ubicación, estado, fecha_adquisicion, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra, ultima_pulverizacion)
+        VALUES ( ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL, NULL)
         `;
-    const values = [nombre, tipo, ubicación, estado, adquirida];
+    const values = [nombre, adquirida, foto, tipo, ubicación, estado];
 
     try {
         const results = await queryDB(sql, values);
@@ -66,7 +66,7 @@ app.post('/api/plantas', async (req, res) => {
 app.put('/api/cuidados/:id_planta', async (req, res) => {
     const plantaId = req.params.id_planta;
     //los campos que se actualizan
-    const {proximo_riego, ultimo_riego, proxima_fertilizacion, ultima_fertilizacion, proximo_cambio_tierra, ultimo_cambio_tierra
+    const {proximo_riego, ultimo_riego, proxima_fertilizacion, ultima_fertilizacion, proximo_cambio_tierra, ultimo_cambio_tierra, proxima_pulverizacion, ultima_pulverizacion
     } = req.body;
 
     //SET. el array crece dinámicamente según sea necesario.
@@ -103,6 +103,15 @@ app.put('/api/cuidados/:id_planta', async (req, res) => {
         values.push(proximo_cambio_tierra);
     }
 
+    if (ultima_pulverizacion) {
+        setClauses.push('ultima_pulverizacion = ?')
+        values.push(ultima_pulverizacion);
+    }
+
+    if (proxima_pulverizacion) {
+        setClauses.push('proxima_pulverizacion = ?')
+        values.push(proxima_pulverizacion);
+    }
     if (setClauses.length === 0) {
         return res.status(400).json({ message: 'No se proporcionaron datos para actualizar.'});
     }
@@ -129,9 +138,9 @@ app.put('/api/cuidados/:id_planta', async (req, res) => {
 app.get('/api/cuidados/pendientes', async (req, res) => {
     // La función NOW() en MySQL obtiene la fecha y hora actual.
     // Se seleccionan las plantas donde la fecha de 'próximo riego' es anterior o igual a hoy.
-    const sql = ` SELECT nombre, proximo_riego, ultima_fertilizacion, proximo_cambio_tierra
+    const sql = ` SELECT nombre, proximo_riego, ultima_fertilizacion, proximo_cambio_tierra, ultima_pulverizacion
         FROM plantas
-        WHERE proximo_riego <= NOW() OR proxima_fertilizacion <= NOW() OR proximo_cambio_tierra <= NOW()`;
+        WHERE proximo_riego <= NOW() OR proxima_fertilizacion <= NOW() OR proximo_cambio_tierra <= NOW() OR ultima_pulverizacion`;
     try {
         const plantasPendientes = await queryDB(sql);
         res.status(200).json(plantasPendientes); //.json para que la respuesta sea más legible
