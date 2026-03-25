@@ -34,28 +34,22 @@ function queryDB(sql, values = []){
 //API endpoint para guardar una nueva planta desde misPlantas.html. ASYNC=devuelve promesa automática y maneja peticiones de HTTP.
     //req=contiene la info de la peticion solicitada. res=objeto para enviar la respuesta solicitada.
 app.post('/api/plantas', async (req, res) => {
-
-    //los datos de la planta se envían en el cuerpo de la peticion
-    const {nombre,  adquirida, foto, tipo, ubicación, estado} = req.body;
-
-    //consulta SQL para insertar datos
-    const sql = `
-        INSERT INTO plantas (nombre, foto, tipo, ubicación, estado, fecha_adquisicion, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra, ultima_pulverizacion)
-        VALUES ( ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL, NULL)
-        `;
-    const values = [nombre, adquirida, foto, tipo, ubicación, estado];
+    const plantas = req.body;
 
     try {
-        const results = await queryDB(sql, values);
-        //si va bien, se envia la respuesta:
-        res.status(201).json({
-            message: '¡Planta guardada con éxito!', 
-            id: results.insertId
-        });
+        for (const planta of plantas) {
+            const { nombre, foto, tipo, ubicacion, estado, adquirida } = planta;
+            const sql = `
+                INSERT INTO plantas (nombre, foto, tipo, ubicacion, estado, fecha_adquisicion, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra)
+                VALUES (?, ?, ?, ?, ?, ?, NULL, NULL, NULL)
+            `;
+            await queryDB(sql, [nombre, foto, tipo, ubicacion, estado, adquirida]);
+            } res.status(201).json({message: '¡Planta guardada con éxito!'});
+
     } catch (error) {
         console.error('Error al guardar la planta:', error);
         //en caso de error, enviamos respuesta con el estado 500(error interno del servidor)
-        req.status(500).json({
+        res.status(500).json({
             message: 'Error al guardar la planta.',
             error:error.message
         });
@@ -66,7 +60,7 @@ app.post('/api/plantas', async (req, res) => {
 app.put('/api/cuidados/:id_planta', async (req, res) => {
     const plantaId = req.params.id_planta;
     //los campos que se actualizan
-    const {proximo_riego, ultimo_riego, proxima_fertilizacion, ultima_fertilizacion, proximo_cambio_tierra, ultimo_cambio_tierra, proxima_pulverizacion, ultima_pulverizacion
+    const {proximo_riego, ultimo_riego, proxima_fertilizacion, ultima_fertilizacion, proximo_cambio_tierra, ultimo_cambio_tierra,
     } = req.body;
 
     //SET. el array crece dinámicamente según sea necesario.
@@ -103,15 +97,6 @@ app.put('/api/cuidados/:id_planta', async (req, res) => {
         values.push(proximo_cambio_tierra);
     }
 
-    if (ultima_pulverizacion) {
-        setClauses.push('ultima_pulverizacion = ?')
-        values.push(ultima_pulverizacion);
-    }
-
-    if (proxima_pulverizacion) {
-        setClauses.push('proxima_pulverizacion = ?')
-        values.push(proxima_pulverizacion);
-    }
     if (setClauses.length === 0) {
         return res.status(400).json({ message: 'No se proporcionaron datos para actualizar.'});
     }
@@ -134,6 +119,77 @@ app.put('/api/cuidados/:id_planta', async (req, res) => {
     }
 });
 
+
+app.post('/api/terrarios', async (req, res) => {
+
+    //los datos de la planta se envían en el cuerpo de la peticion
+    const {nombre,  adquirida, foto, ubicación, estado} = req.body;
+
+    //consulta SQL para insertar datos
+    const sql = `
+        INSERT INTO terrarios (nombre, foto, ubicación, estado, fecha_adquisicion, ultima_pulverizacion)
+        VALUES ( ?, ?, ?, ?, NULL, NULL)
+        `;
+    const values = [nombre, adquirida, foto, ubicación, estado];
+
+    try {
+        const results = await queryDB(sql, values);
+        //si va bien, se envia la respuesta:
+        res.status(201).json({
+            message: '¡Terrario guardado con éxito!', 
+            id: results.insertId
+        });
+    } catch (error) {
+        console.error('Error al guardar el terrario:', error);
+        //en caso de error, enviamos respuesta con el estado 500(error interno del servidor)
+        req.status(500).json({
+            message: 'Error al guardar el terrario.',
+            error:error.message
+        });
+    }
+});
+
+
+app.put('/api/cuidados/:id_terrario', async (req, res) => {
+    const terrarioId = req.params.id_terrario;
+    //los campos que se actualizan
+    const { proxima_pulverizacion, ultima_pulverizacion
+    } = req.body;
+
+    //SET. el array crece dinámicamente según sea necesario.
+    let setClauses = [];
+    let values = [];
+
+    if (ultima_pulverizacion) {
+        setClauses.push('ultima_pulverizacion = ?')
+        values.push(ultima_pulverizacion);
+    }
+
+    if (proxima_pulverizacion) {
+        setClauses.push('proxima_pulverizacion = ?')
+        values.push(proxima_pulverizacion);
+    }
+    if (setClauses.length === 0) {
+        return res.status(400).json({ message: 'No se proporcionaron datos para actualizar.'});
+    }
+
+    const sql = `UPDATE terrarios SET ${setClauses.join(', ')} WHERE id = ?`;
+    values.push(terrarioId); // Agregamos el ID del terrario al final
+
+    try {
+        const result = await queryDB(sql, values);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Terrario no encontrada.' });
+        }
+        res.status(200).json({ message: 'Cuidados actualizados con éxito.' });
+    } catch(error) {
+        //Log interno 
+        console.error('Error al actualizar Cuidados:', error);
+        //500 = Error genérico del servidor
+        res.status(500).json({ message: 'Error al actualizar Cuidados.', error: error.message });
+    }
+});
+
 //endpoint para obntener las plantas que necesitan cuidados
 app.get('/api/cuidados/pendientes', async (req, res) => {
     // La función NOW() en MySQL obtiene la fecha y hora actual.
@@ -146,7 +202,22 @@ app.get('/api/cuidados/pendientes', async (req, res) => {
         res.status(200).json(plantasPendientes); //.json para que la respuesta sea más legible
     } catch(error) {
         console.error('Error al obtener los Cuidados pendientes:', error);
-        res.status(400).json({message: 'Error al obtener los Cuidados pendientes.', error: error.message})
+        res.status(500).json({message: 'Error al obtener los Cuidados pendientes.', error: error.message})
+    }
+});
+
+app.get('/api/cuidados/pendientes/terrarios', async (req, res) => {
+    const sql = `
+        SELECT nombre, fecha_adquisicion, ultima_pulverizacion, proxima_pulverizacion
+        FROM terrarios
+        WHERE proxima_pulverizacion <= NOW()
+    `;
+    try {
+        const terrariosPendientes = await queryDB(sql);
+        res.status(200).json(terrariosPendientes);
+    } catch(error) {
+        console.error('Error al obtener los cuidados pendientes de terrarios:', error);
+        res.status(500).json({ message: 'Error al obtener los cuidados pendientes de terrarios.', error: error.message });
     }
 });
 

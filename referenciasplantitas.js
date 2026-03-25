@@ -24,6 +24,7 @@ function crearFila(planta = null) {
     //creamos el contenido HTML de la fila
     fila.innerHTML = `
         <td><input type="text" value="${planta.nombre}" data-field="nombre" placeholder="Ej: Rosa"></td>
+        <td><input type="date" value="${planta.adquirida}" data-field="adquirida"></td>
         <td><input type="file" data-field="foto"></td>
         <td>
             <select data-field="tipo">
@@ -56,7 +57,6 @@ function crearFila(planta = null) {
                 <option value="Muerta">Muerta</option>
             </select>
         </td>
-        <td><input type="date" value="${planta.adquirida}" data-field="adquirida"></td>
     `;
 
     fila.addEventListener('click', function () {
@@ -72,21 +72,33 @@ async function guardarCambios() {
     //obtenemos la fila donde están los inputs
     const tabla = document.getElementById('miTabla');
     const tbody = tabla.querySelector('tbody'); 
-    const fila = tbody.rows[0]; //usamos la primera fila
+    const fila = tbody.rows;
+
+    const plantas = [];
+
+    if(filas.lenght === 0){
+        alert("No hay filas para guardar.");
+        return;
+    }
+
+    for (let i = 0; i < filas.length; i++) {
+        const fila = filas[i];
 
     //extraemos valores de los inputs
-    const nombre = fila.cells[0].querySelector('input').value;
-    const adquirida = fila.cells[1].querySelector('input[type= "date"]').value;
-    const foto = fila.cells[2].querySelector('input[type= "file"]').value;
-    const tipo = fila.cells[3].querySelector('select').value;
-    const ubicacion = fila.cells[4].querySelector('select').value;
-    const estado = fila.cells[5].querySelector('select').value;
+        const nombre = fila.cells[0].querySelector('input').value;
+        const adquirida = fila.cells[1].querySelector('input[type= "date"]').value;
+        const foto = fila.cells[2].querySelector('input[type= "file"]').value;
+        const tipo = fila.cells[3].querySelector('select').value;
+        const ubicacion = fila.cells[4].querySelector('select').value;
+        const estado = fila.cells[5].querySelector('select').value;
     
+    plantas.push({ nombre, foto, tipo, ubicacion, estado, adquirida });
+}
 
     const respuesta = await fetch('/api/plantas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, adquirida, foto, tipo, ubicacion, estado })
+        body: JSON.stringify(plantas)
     });
 
     const resultado = await respuesta.json();
