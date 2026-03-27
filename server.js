@@ -38,12 +38,12 @@ app.post('/api/plantas', async (req, res) => {
 
     try {
         for (const planta of plantas) {
-            const { nombre, foto, tipo, ubicacion, estado, adquirida } = planta;
+            const { nombre, adquirida, foto, tipo, ubicacion, estado } = planta;
             const sql = `
-                INSERT INTO plantas (nombre, foto, tipo, ubicacion, estado, fecha_adquisicion, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra)
-                VALUES (?, ?, ?, ?, ?, ?, NULL, NULL, NULL)
+                INSERT INTO plantas (nombre, fecha_adquisicion, foto_url, tipo, ubicacion, estado, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra)
+                VALUES (?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
             `;
-            await queryDB(sql, [nombre, foto, tipo, ubicacion, estado, adquirida]);
+            await queryDB(sql, [nombre, adquirida, foto, tipo, ubicacion, estado]);
             } res.status(201).json({message: '¡Planta guardada con éxito!'});
 
     } catch (error) {
@@ -122,26 +122,22 @@ app.put('/api/cuidados/:id_planta', async (req, res) => {
 
 app.post('/api/terrarios', async (req, res) => {
 
-    //los datos de la planta se envían en el cuerpo de la peticion
-    const {nombre,  adquirida, foto, ubicación, estado} = req.body;
+    const {nombre, adquirida, foto, ubicacion, estado} = req.body;
 
-    //consulta SQL para insertar datos
     const sql = `
-        INSERT INTO terrarios (nombre, foto, ubicación, estado, fecha_adquisicion, ultima_pulverizacion)
-        VALUES ( ?, ?, ?, ?, NULL, NULL)
+        INSERT INTO terrarios (nombre, fecha_adquisicion, foto_url, ubicacion, estado)
+        VALUES ( ?, NULL, NULL, NULL, NULL)
         `;
-    const values = [nombre, adquirida, foto, ubicación, estado];
+    const values = [nombre, adquirida, foto, ubicacion, estado];
 
     try {
         const results = await queryDB(sql, values);
-        //si va bien, se envia la respuesta:
         res.status(201).json({
             message: '¡Terrario guardado con éxito!', 
             id: results.insertId
         });
     } catch (error) {
         console.error('Error al guardar el terrario:', error);
-        //en caso de error, enviamos respuesta con el estado 500(error interno del servidor)
         req.status(500).json({
             message: 'Error al guardar el terrario.',
             error:error.message
@@ -152,11 +148,10 @@ app.post('/api/terrarios', async (req, res) => {
 
 app.put('/api/cuidados/:id_terrario', async (req, res) => {
     const terrarioId = req.params.id_terrario;
-    //los campos que se actualizan
+
     const { proxima_pulverizacion, ultima_pulverizacion
     } = req.body;
 
-    //SET. el array crece dinámicamente según sea necesario.
     let setClauses = [];
     let values = [];
 
@@ -174,7 +169,7 @@ app.put('/api/cuidados/:id_terrario', async (req, res) => {
     }
 
     const sql = `UPDATE terrarios SET ${setClauses.join(', ')} WHERE id = ?`;
-    values.push(terrarioId); // Agregamos el ID del terrario al final
+    values.push(terrarioId);
 
     try {
         const result = await queryDB(sql, values);
@@ -183,9 +178,7 @@ app.put('/api/cuidados/:id_terrario', async (req, res) => {
         }
         res.status(200).json({ message: 'Cuidados actualizados con éxito.' });
     } catch(error) {
-        //Log interno 
         console.error('Error al actualizar Cuidados:', error);
-        //500 = Error genérico del servidor
         res.status(500).json({ message: 'Error al actualizar Cuidados.', error: error.message });
     }
 });
@@ -194,9 +187,9 @@ app.put('/api/cuidados/:id_terrario', async (req, res) => {
 app.get('/api/cuidados/pendientes', async (req, res) => {
     // La función NOW() en MySQL obtiene la fecha y hora actual.
     // Se seleccionan las plantas donde la fecha de 'próximo riego' es anterior o igual a hoy.
-    const sql = ` SELECT nombre, proximo_riego, ultima_fertilizacion, proximo_cambio_tierra, ultima_pulverizacion
+    const sql = ` SELECT nombre, proximo_riego, ultima_fertilizacion, proxima_fertilizacion, proximo_cambio_tierra, ultima_pulverizacion, proxima_pulverizacion
         FROM plantas
-        WHERE proximo_riego <= NOW() OR proxima_fertilizacion <= NOW() OR proximo_cambio_tierra <= NOW() OR ultima_pulverizacion`;
+        WHERE proximo_riego <= NOW() OR proxima_fertilizacion <= NOW() OR proximo_cambio_tierra <= NOW() OR proxima_pulverizacion <= NOW()`;
     try {
         const plantasPendientes = await queryDB(sql);
         res.status(200).json(plantasPendientes); //.json para que la respuesta sea más legible

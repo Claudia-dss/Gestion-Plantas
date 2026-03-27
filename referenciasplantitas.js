@@ -9,11 +9,11 @@ function crearFila(planta = null) {
         planta = {
             id: id,
             nombre: '',
+            adquirida: new Date().toISOString().split('T')[0], //se obtiene la fecha del dia que es, la convierte en texto, corta en la T y toma la primera parte.
             foto: '',
             tipo:'',
             ubicacion: '',
             estado:'',
-            adquirida: new Date().toISOString().split('T')[0] //se obtiene la fecha del dia que es, la convierte en texto, corta en la T y toma la primera parte.
         };
     }
 
@@ -76,13 +76,13 @@ async function guardarCambios() {
 
     const plantas = [];
 
-    if(filas.lenght === 0){
+    if(fila.length === 0){
         alert("No hay filas para guardar.");
         return;
     }
 
-    for (let i = 0; i < filas.length; i++) {
-        const fila = filas[i];
+    for (let i = 0; i < fila.length; i++) {
+        const fila = fila[i];
 
     //extraemos valores de los inputs
         const nombre = fila.cells[0].querySelector('input').value;
@@ -92,7 +92,7 @@ async function guardarCambios() {
         const ubicacion = fila.cells[4].querySelector('select').value;
         const estado = fila.cells[5].querySelector('select').value;
     
-    plantas.push({ nombre, foto, tipo, ubicacion, estado, adquirida });
+    plantas.push({ nombre, adquirida, foto, tipo, ubicacion, estado});
 }
 
     const respuesta = await fetch('/api/plantas', {

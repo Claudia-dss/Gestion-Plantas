@@ -41,7 +41,7 @@ async function cargarCuidadosPend() {
         );
 
         if(plantasVencidas.lenght === 0){
-            tbody.innerHTML = `<tr><td colspan="9">✅ ¡Todas las plantas están al día!</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="9">¡Todas las plantas están al día!</td></tr>`;
             return;
         }
 
