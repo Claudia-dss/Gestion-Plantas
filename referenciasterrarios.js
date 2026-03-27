@@ -41,6 +41,7 @@ function crearFila(terrario = null){
                 <option value="Muerta">Muerta</option>
             </select>
         </td>
+        <td><input type="date" class="fecha"></td>
     `;
 
     fila.addEventListener('click', function () {

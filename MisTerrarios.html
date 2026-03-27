@@ -8,14 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Phudu:wght@300..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="estilos.css">
-    <title>Link a Mis Terrarios</title>
+    <title>Mis Terrarios</title>
 </head>
 
 <body>
   <header>
-    <div class="fondo">
-      <h1 id="titulo">Mi Jardín</h1>
-      <div class="search"> 
+    <div class="fondo"> 
+        <h1 id="titulo">Mi Jardín</h1>
+      <div class="search">
         <input type="text" id="buscador" placeholder="Buscar planta...">
         <button type="button" class="btn-buscador">Buscar</button>
       </div>
@@ -32,13 +32,13 @@
             <div class="offcanvas-body">
               <ul class="mi-menu-inicio justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="MisPlantas.html">Mis Plantas</a>
+                  <a class="nav-link active" aria-current="page" href="MisTerrarios.html">Mis Terrarios</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="plantas.html">Inicio</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="MisTerrarios.html">Mis Terrarios</a>
+                  <a class="nav-link" href="MisPlantas.html">Mis Plantas</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="Cuidados.html">Cuidados</a>
@@ -53,27 +53,54 @@
 
     <main>
         <section id="posesion">
-            <table id="miTabla" style="width: 500px;" action="/formulario" method="POST">
+          <form id="form-plantas" action="server.js" method="POST">
+            <table id="miTabla">
             <thead>
                 <tr>
                 <th>Nombre del terrario</th>
-                <th type="img">Foto</th>
                 <th type="date--">Adquirido</th>
+                <th type="file">Foto</th>
+                <th class="desplegable">Ubicación</th>
+                <th class="desplegable">Estado de la planta</th>
                 <th type="date--">Pulverizado el: </th>
                 </tr>
             </thead>
             <tbody>
-                <td> <input type="text"></td>
+                <td> <input type="text" class="texto"></td>
+
+                <td><input type="date" class="fecha"></td>
+
                 <td><input type="file"></td>
-                <td><input type="date"></td>
-                <td><input type="date"></td>
+
+                <td>
+                  <select id="despleg-ubi">
+                    <option value="">Selecciona un tipo</option>
+                    <option value="Salón">Salón</option>
+                    <option value="Habitación">Habitación</option>
+                    <option value="Baño">Baño</option>
+                    <option value="Cocina">Cocina</option>
+                    <option value="Terraza">Terraza</option>
+                  </select>
+                </td>
+
+                <td>
+                  <select id="despleg-estado">
+                    <option value="">Selecciona un tipo</option>
+                    <option value="Sana">Sana</option>
+                    <option value="Enferma">Enferma</option>
+                    <option value="Muerta">Muerta</option>                
+                  </select>
+                </td>
+
+                <td><input type="date" class="fecha"></td>
             </tbody>
             <tfoot></tfoot>
             </table>
-      <button type="button" onclick="crearFila()" id="filas">+</button>
-      <button type="button" onclick="eliminarFilaSeleccionada()" id="borrar-filas">🗑️</button>
-      <button type="button" onclick="guardarCambios()" class="btn-guardar"> Guardar cambios</button>
-        </section><br>
+          <button type="button" onclick="crearFila()" id="filas">+</button>
+          <button type="button" onclick="eliminarFilaSeleccionada()" id="borrar-filas">🗑️</button>
+          <button type="button" onclick="guardarCambios()" class="btn-guardar"> Guardar cambios</button>
+        </form>
+      </section><br>
     </main>
     <footer>
     <p>&copy; 2025. Mi jardín.</p>
