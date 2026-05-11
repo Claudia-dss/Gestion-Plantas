@@ -72,41 +72,61 @@ function crearFila(planta = null) {
 }
 
 async function guardarCambios() {
+
     //obtenemos la fila donde están los inputs
     const tabla = document.getElementById('miTabla');
     const tbody = tabla.querySelector('tbody'); 
-    const fila = tbody.rows;
+    const todasLasFilas = tbody.rows;
 
-    const plantas = [];
+    plantas = [];
 
-    if(fila.length === 0){
-        alert("No hay filas para guardar.");
-        return;
-    }
+        if(todasLasFilas.length === 0){
+            alert("No hay filas para guardar.");
+            return;
+        }
 
-    for (let i = 0; i < fila.length; i++) {
-        const fila = fila[i];
+    for (let i = 0; i < todasLasFilas.length; i++) {
+        const celdas = todasLasFilas[i].querySelectorAll('input, select');
 
     //extraemos valores de los inputs
-        const nombre = fila.cells[0].querySelector('input').value;
-        const adquirida = fila.cells[1].querySelector('input[type= "date"]').value;
-        const foto = fila.cells[2].querySelector('input[type= "file"]').value;
-        const tipo = fila.cells[3].querySelector('select').value;
-        const ubicacion = fila.cells[4].querySelector('select').value;
-        const estado = fila.cells[5].querySelector('select').value;
+        const planta = {
+            nombre: celdas[0].value.trim(),
+            adquirida: celdas[1].value,
+            foto: celdas[2].value || "",
+            tipo: celdas[3].value,
+            ubicacion: celdas[4].value,
+            estado: celdas[5].value
+        };
     
-    plantas.push({ nombre, adquirida, foto, tipo, ubicacion, estado});
+        if (planta.nombre !== "") {
+            plantas.push(planta);
+        }
+    };
+
+    try {
+        // Enviamos los datos al servidor mediante fetch
+        const respuesta = await fetch('http://localhost:3000/api/plantas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(plantas)
+        });
+
+        if (respuesta.ok) {
+            const resultado = await respuesta.json();
+            alert('¡Cambios guardados con éxito!');
+        } else {
+            const errorData = await respuesta.json();
+            console.error('Error al guardar:', errorData);
+            alert('Hubo un error al guardar los cambios.');
+        }
+    } catch (error) {
+        console.error('Error en la comunicación con el servidor:', error);
+        alert('No se pudo conectar con el servidor.');
+    }
 }
 
-    const respuesta = await fetch('/api/plantas', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(plantas)
-    });
-
-    const resultado = await respuesta.json();
-    alert(resultado.message);
-}
 
 
 function eliminarFilaSeleccionada() {

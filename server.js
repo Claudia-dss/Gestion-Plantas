@@ -1,5 +1,3 @@
-//establece el servidor. Maneja las peticiones HTTP y se conecta con el archivo conexion-bd.js.
-
 //importamos express
 const express = require('express');
 
@@ -13,8 +11,14 @@ const app = express(); //iniciamos app
 const PORT = 3000; //puerto de mi servidor
 
 //configuramos Express para servir archivos estáticos:
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*"); // Permite peticiones de cualquier origen
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    next();
+});
 app.use(express.static(__dirname)); //permite al navegador cargar HTML directamente
-app.use(bodyParser.json()); //analizador para JSON
+app.use(express.json()); //analizador para JSON
 app.use(bodyParser.urlencoded({extended: true})); //analizador para datos de formulario
 
 //Funciones para ejecutar consultas de SQL de forma limpia y asincrona
@@ -34,25 +38,28 @@ function queryDB(sql, values = []){
 //API endpoint para guardar una nueva planta desde misPlantas.html. ASYNC=devuelve promesa automática y maneja peticiones de HTTP.
     //req=contiene la info de la peticion solicitada. res=objeto para enviar la respuesta solicitada.
 app.post('/api/plantas', async (req, res) => {
-    const plantas = req.body;
+    const plantasRecibidas = req.body; // Recibimos el array enviado desde el frontend [1]
+
+    // Validamos que recibimos datos
+    if (!Array.isArray(plantasRecibidas)) {
+        return res.status(400).json({ message: 'Formato de datos inválido, se esperaba un array.' });
+    }
 
     try {
-        for (const planta of plantas) {
+        // Aquí usamos un bucle para insertar cada planta recibida [5]
+        for (const planta of plantasRecibidas) {
             const { nombre, adquirida, foto, tipo, ubicacion, estado } = planta;
-            const sql = `
-                INSERT INTO plantas (nombre, fecha_adquisicion, foto_url, tipo, ubicacion, estado, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra)
-                VALUES (?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
-            `;
-            await queryDB(sql, [nombre, adquirida, foto, tipo, ubicacion, estado]);
-            } res.status(201).json({message: '¡Planta guardada con éxito!'});
+            
+            const sql = `INSERT INTO plantas (nombre, adquirida, foto, tipo, ubicacion, estado) 
+                        VALUES (?, ?, ?, ?, ?, ?)`;
+            
+            await queryDB(sql,[nombre, adquirida, foto, tipo, ubicacion, estado]);
+        }
 
+        res.status(200).json({ message: 'Todas las plantas han sido guardadas correctamente.' });
     } catch (error) {
-        console.error('Error al guardar la planta:', error);
-        //en caso de error, enviamos respuesta con el estado 500(error interno del servidor)
-        res.status(500).json({
-            message: 'Error al guardar la planta.',
-            error:error.message
-        });
+        console.error('Error al guardar en la base de datos:', error);
+        res.status(500).json({ message: 'Error interno del servidor.', error: error.message });
     }
 });
 
@@ -124,9 +131,13 @@ app.post('/api/terrarios', async (req, res) => {
 
     const {nombre, adquirida, foto, ubicacion, estado} = req.body;
 
+    if (!nombre || !estado) {
+        return res.status(400).json({ error: "Faltan campos obligatorios para el registro" });
+    }
+
     const sql = `
-        INSERT INTO terrarios (nombre, fecha_adquisicion, foto_url, ubicacion, estado)
-        VALUES ( ?, NULL, NULL, NULL, NULL)
+        INSERT INTO terrarios (nombre, adquirida, foto, ubicacion, estado)
+        VALUES ( ?, ?, ?, ?, ?)
         `;
     const values = [nombre, adquirida, foto, ubicacion, estado];
 
