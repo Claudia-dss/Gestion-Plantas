@@ -87,10 +87,17 @@ async function guardarCambios() {
 
     for (let i = 0; i < todasLasFilas.length; i++) {
         const celdas = todasLasFilas[i].querySelectorAll('input, select');
+        const nombreVal = celdas[0].value.trim();
+
+        if (nombreVal === "") {
+            alert("Error en la fila ${i + 1}: El nombre de la planta no puede estar vacío.");
+            celdas[0].focus();
+            return;
+        }
 
     //extraemos valores de los inputs
         const planta = {
-            nombre: celdas[0].value.trim(),
+            nombre: nombreVal,
             adquirida: celdas[1].value,
             foto: celdas[2].value || "",
             tipo: celdas[3].value,
@@ -98,9 +105,7 @@ async function guardarCambios() {
             estado: celdas[5].value
         };
     
-        if (planta.nombre !== "") {
             plantas.push(planta);
-        }
     };
 
     try {

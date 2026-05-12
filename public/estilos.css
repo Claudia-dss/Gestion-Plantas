@@ -22,7 +22,7 @@ body {
   font-size: 60px;
   text-align:center;
   margin-top: 15px;
-  text-align: left;
+  text-align: center;
   order:2;
 }
 
@@ -77,6 +77,7 @@ button:hover {
   align-items: center;
   order: 1;
   margin-left: 2em;
+  padding-right: 0;
 }
 
 /*Menú*/
@@ -137,7 +138,7 @@ span {
 }
 
 #misplantas button:hover /*boton que al pasar el raton muestra la imagen*/ {
-  background-image: url(plantitas.png);
+  background-image: url(/img/plantitas.png);
   background-size: cover; /*para que la imagen cubra todo el boton por dentro*/
   background-repeat: no-repeat; /* Evita que la imagen se repita */
   background-position: center 80%; /*centra la imagen dentro del boton*/
@@ -145,7 +146,7 @@ span {
 }
 
 #misterrarios button:hover {
-  background-image: url(terrarios.jpg);
+  background-image: url(/img/terrarios.jpg);
   background-size: cover; 
   background-repeat: no-repeat;
   background-position: center 80%;
@@ -153,7 +154,7 @@ span {
 }
 
 #miscuidados button:hover {
-  background-image: url(cuidados.jpg);
+  background-image: url(/img/cuidados.jpg);
   background-size: cover; 
   background-repeat: no-repeat;
   background-position: center 80%;
@@ -183,7 +184,7 @@ button, .navbar {
   text-decoration: none; /*se aplica a enlaces*/
 }
 
-.btn-guardar {  
+#btn-guardar {  
   width: 20%;
   height: 50px;
   border-radius: 20px;
@@ -251,7 +252,7 @@ th, td {
   margin: 10%;
 }
 
-.despleg-tipo, #despleg-ubi, #despleg-estado{
+.despleg-tipo, #despleg-ubi, #despleg-estado, tr.marcada{
   width: 65%;
 }
 

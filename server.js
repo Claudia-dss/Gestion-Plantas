@@ -48,12 +48,12 @@ app.post('/api/plantas', async (req, res) => {
     try {
         // Aquí usamos un bucle para insertar cada planta recibida [5]
         for (const planta of plantasRecibidas) {
-            const { nombre, adquirida, foto, tipo, ubicacion, estado } = planta;
+            const { nombre, adquirida, foto, tipo, ubicacion, estado, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra } = planta;
             
-            const sql = `INSERT INTO plantas (nombre, adquirida, foto, tipo, ubicacion, estado) 
-                        VALUES (?, ?, ?, ?, ?, ?)`;
+            const sql = `INSERT INTO plantas (nombre, adquirida, foto, tipo, ubicacion, estado, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
             
-            await queryDB(sql,[nombre, adquirida, foto, tipo, ubicacion, estado]);
+            await queryDB(sql,[nombre, adquirida, foto, tipo, ubicacion, estado, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra]);
         }
 
         res.status(200).json({ message: 'Todas las plantas han sido guardadas correctamente.' });
@@ -67,7 +67,7 @@ app.post('/api/plantas', async (req, res) => {
 app.put('/api/cuidados/:id_planta', async (req, res) => {
     const plantaId = req.params.id_planta;
     //los campos que se actualizan
-    const {proximo_riego, ultimo_riego, proxima_fertilizacion, ultima_fertilizacion, proximo_cambio_tierra, ultimo_cambio_tierra,
+    const {proximo_riego, ultimo_riego, proxima_fertilizacion, ultimo_fertilizante, proximo_cambio_tierra, ultimo_cambio_tierra,
     } = req.body;
 
     //SET. el array crece dinámicamente según sea necesario.
@@ -84,9 +84,9 @@ app.put('/api/cuidados/:id_planta', async (req, res) => {
         values.push(proximo_riego);
     }
 
-    if(ultima_fertilizacion) {
-        setClauses.push('ultima_fertilizacion = ?')
-        values.push(ultima_fertilizacion);
+    if(ultimo_fertilizante) {
+        setClauses.push('ultimo_fertilizante = ?')
+        values.push(ultimo_fertilizante);
     }
 
     if (proxima_fertilizacion) {
@@ -229,5 +229,5 @@ app.get('/api/cuidados/pendientes/terrarios', async (req, res) => {
 //app.listen: Escucha conexiones entrantes en el puerto especificado
 app.listen(PORT, () => {
     console.log(`Servidor de Mi Jardín corriendo en http://localhost:${PORT}`);
-    console.log(`Accede a la página principal en http://localhost:${PORT}/plantas.html`);
+    console.log(`Accede a la página principal en http://localhost:${PORT}/public/MisPlantas.html`);
 });
