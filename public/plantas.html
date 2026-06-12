@@ -4,12 +4,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página principal</title>
+  <title>Mi Jardín — Inicio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Phudu:wght@300..900&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="estilos.css">
+  <style>
+    /* Ajuste específico para la página de inicio */
+    main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 24px;
+      gap: 0;
+    }
+    #misplantas, #misterrarios, #miscuidados {
+      margin-bottom: 16px;
+    }
+  </style>
 </head>
 
 <body>
@@ -33,7 +46,7 @@
             <div class="offcanvas-body">
               <ul class="mi-menu-inicio justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="plantas.html">Inicio </a>
+                  <a class="nav-link active" aria-current="page" href="plantas.html">Inicio</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="MisPlantas.html">Mis Plantas</a>
@@ -49,37 +62,36 @@
           </div>
         </div>
       </nav>
+    </div>
   </header>
 
-  <main> <!--Primer boton de plantas que hay en posesion-->
+  <main>
     <div id="misplantas">
       <button type="button" id="cuadrado-1" onclick="window.location.href='MisPlantas.html'">
         <span>
           <h2><strong>Mis plantas</strong></h2>
           <p>Plantas que tengo en posesión</p>
-        </span> 
+        </span>
       </button>
-    </div><br><br>
+    </div>
 
-    <!--Segundo boton de terrarios en posesion-->
     <div id="misterrarios">
-      <button type="button" id="cuadrado-2" onclick="window.location.href='MisTerrarios.html'"> 
+      <button type="button" id="cuadrado-2" onclick="window.location.href='MisTerrarios.html'">
         <span>
-          <h2><strong>Mis terrarios</a></strong></h2>
+          <h2><strong>Mis terrarios</strong></h2>
           <p>Terrarios que tengo en posesión</p>
         </span>
       </button>
-    </div><br><br>
+    </div>
 
-    <!--Tercer boton de los cuidados registrados-->
     <div id="miscuidados">
-      <button type="button" id="cuadrado-3" onclick="window.location.href='Cuidados.html'"> <!--tambien se puede hacer asi(en js): document.getElementById("miBoton").addEventListener("click", function() { window.location.href = "MisPlantas.html"; });-->
-          <span>
-            <h2><strong>Cuidados</a></strong></h2>
-              <p>Riegos, fertilización y cambios de tierra.</p>
+      <button type="button" id="cuadrado-3" onclick="window.location.href='Cuidados.html'">
+        <span>
+          <h2><strong>Cuidados</strong></h2>
+          <p>Riegos, fertilización y cambios de tierra.</p>
         </span>
       </button>
-    </div><br><br>
+    </div>
   </main>
 
   <footer>
@@ -91,28 +103,3 @@
   <script src="server.js"></script>
 </body>
 </html>
-
-
-
-
-        
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-
-
-        
-
-

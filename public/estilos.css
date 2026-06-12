@@ -1,337 +1,724 @@
-.fondo/*Header*/ {
-  background-color: rgb(54, 124, 54);
-  padding: 0;
-  width: 100%;
-  height: 100px;
-  display:flex;
-  text-align: center;
-  justify-content:space-around;
+/* =============================================
+   MI JARDÍN — ESTILOS REDISEÑADOS
+   Paleta: verde oscuro #367C36 | verde medio #7BC87B | verde claro #DBF0D8
+============================================= */
+
+/* ---------- RESET & BASE ---------- */
+*, *::before, *::after {
   box-sizing: border-box;
-  position: relative; /* Contenedor para elementos posicionados */
 }
 
 body {
-  background-color: rgb(219, 237, 216);
+  background-color: #DBF0D8;
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
+  color: #1a2e1a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-#titulo /*Mi Jardin*/{
-  flex: 1;
-  font-size: 60px;
-  text-align:center;
-  margin-top: 15px;
-  text-align: center;
-  order:2;
-}
-
-h1, h2, h3, h4, h5, h6, p, a{
+h1, h2, h3, h4, h5, h6 {
   font-family: "Phudu", serif;
   font-optical-sizing: auto;
-}
-
-h1, h2 {
-  font-style: normal;
-  font-size: xx-large;
   font-weight: 800;
-  text-align: center;
-  color: rgb(4, 19, 4);
+  color: #0f1f0f;
   margin: 0;
 }
 
-button {
-  background: linear-gradient(
-    90deg,
-    rgb(141, 177, 141) 25%,
-    rgb(54, 124, 54) 73%
-  );
-  width: 95%;
-  height: 600px;
-  margin: 2% 0 0 2%;
-  display:flex;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  flex-grow: 0; /*los elementos no crecen*/
-  flex-shrink: 1; /*los elementos pueden reducir su tamano a un tamano mas pequeno que su flex-basis*/
-  flex-basis: auto; /*los elementos tienen un tamano base automatico*/
-  border-radius: 8%;
-  border: none;
-  cursor: pointer;
-  transition: background-color 1.5s ease, opacity 2s ease; /* agrega opacidad a la transicion*/
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /*siempre tiene que tener 3 lados*/
-  position: relative; /*Para posicionar el texto correctamente */
+p, a {
+  font-family: "Phudu", serif;
 }
 
-button:hover {
-  opacity: 0.5;
+/* ---------- HEADER ---------- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-/*Barra de busqueda*/
-.search{
-  flex: 1;
+.fondo {
+  background-color: #367C36;
+  width: 100%;
+  height: 72px;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  gap: 16px;
+}
+
+#titulo {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #f0faf0;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  order: 2;
+  flex: 0 0 auto;
+}
+
+/* ---------- BUSCADOR ---------- */
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   order: 1;
-  margin-left: 2em;
-  padding-right: 0;
-}
-
-/*Menú*/
-.bg-body-tertiary{
-  background-color: rgb(54, 124, 54) !important;
   flex: 1;
-  display: flex;
-  justify-content: flex-end !important;
-  align-items: center;
+  max-width: 320px;
+}
+
+#buscador {
+  flex: 1;
+  padding: 8px 16px;
+  border-radius: 24px;
+  border: 2px solid rgba(255,255,255,0.25);
+  background-color: rgba(255,255,255,0.15);
+  color: #f0faf0;
+  font-family: "Phudu", serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+#buscador::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+#buscador:focus {
+  border-color: rgba(255,255,255,0.7);
+  background-color: rgba(255,255,255,0.25);
+}
+
+.btn-buscador {
+  padding: 8px 16px;
+  border-radius: 24px;
+  border: 2px solid rgba(255,255,255,0.5);
+  background: transparent;
+  color: #f0faf0;
+  font-family: "Phudu", serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  width: auto;
+  height: auto;
+  margin: 0;
+  box-shadow: none;
+  flex-direction: row;
+  flex-grow: 0;
+  border-radius: 24px;
+}
+
+.btn-buscador:hover {
+  background-color: rgba(255,255,255,0.2);
+  border-color: #fff;
+  opacity: 1;
+}
+
+/* ---------- NAVBAR / OFFCANVAS ---------- */
+.bg-body-tertiary {
+  background-color: transparent !important;
   order: 3;
-  padding:0;
+  flex: 0 0 auto;
+  padding: 0;
 }
 
-.offcanvas-header{
-  background-color: rgb(54, 124, 54);
+.container-fluid {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  justify-content: flex-end;
 }
 
-.offcanvas-body{
-  background-color: rgb(219, 237, 216);
+.navbar-toggler {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 2px solid rgba(255,255,255,0.5);
+  background: transparent;
+  padding: 6px;
+  margin: 0;
+  box-shadow: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-.navbar-toggler, .btn-close {
-  width: 20%;
-  height: 50px;
-  border-radius: 20px;
-  border: none;
-  margin:0;
+.navbar-toggler:hover {
+  background-color: rgba(255,255,255,0.15);
+  opacity: 1;
 }
 
-.navbar-toggler-icon{
-  align-items: center;
+.navbar-toggler-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.offcanvas-header {
+  background-color: #367C36;
+  padding: 20px 24px;
+}
+
+.offcanvas-title {
+  color: #f0faf0;
+  font-family: "Phudu", serif;
+  font-weight: 800;
+  font-size: 1.2rem;
 }
 
 .btn-close {
-    background: linear-gradient(
-    90deg,
-    rgb(141, 177, 141) 25%,
-    rgb(54, 124, 54) 73%
-  );
-  align-items: center;
-}
-
-.navbar-brand{
-  text-align: center;
-  margin:0;
-}
-
-.container-fluid{
-  background-color: rgb(54, 124, 54);
-  margin:0;
-  justify-content: right;
-  width: 60px;
-}
-
-span {
-  position: relative;
-  z-index: 2;
-}
-
-#misplantas button:hover /*boton que al pasar el raton muestra la imagen*/ {
-  background-image: url(/img/plantitas.png);
-  background-size: cover; /*para que la imagen cubra todo el boton por dentro*/
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
-  background-position: center 80%; /*centra la imagen dentro del boton*/
-  border: solid 1px rgb(54, 124, 54);
-}
-
-#misterrarios button:hover {
-  background-image: url(/img/terrarios.jpg);
-  background-size: cover; 
-  background-repeat: no-repeat;
-  background-position: center 80%;
-  border: solid 1px rgb(54, 124, 54);
-}
-
-#miscuidados button:hover {
-  background-image: url(/img/cuidados.jpg);
-  background-size: cover; 
-  background-repeat: no-repeat;
-  background-position: center 80%;
-  border: solid 1px rgb(54, 124, 54);
-}
-
-/*posesion de plantas y terrarios*/
-#posesion { 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items:center;
-}
-
-/*Cuadros del apartado cuidados*/
-#riego, #fertilizacion, #tierra, .texto-cuidados{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items:center;
-  margin:10%; 
-}
-
-/*Letras recuadros*/
-button, .navbar {
-  color: inherit; /* Hereda el color del texto del boton */
-  text-decoration: none; /*se aplica a enlaces*/
-}
-
-#btn-guardar {  
-  width: 20%;
-  height: 50px;
-  border-radius: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   border: none;
-}
-
-.btn-buscador{
-  width: 20%;
-  height: 50px;
-  border-radius: 20px;
-  border: none;
-  margin: 4px;
-}
-
-#buscador{
-  margin:0;
-  padding: 15px;
-  border-radius: 20px;
-}
-
-.inicio {
+  background: rgba(255,255,255,0.2);
+  color: #f0faf0;
   font-family: "Phudu", serif;
-  font-optical-sizing: auto;
-  font-style: bold;
-  font-size: large;
-  text-align:right;
-  margin: 10%;
-  padding: 10%;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
+.btn-close:hover {
+  background-color: rgba(255,255,255,0.35);
+  opacity: 1;
+}
+
+.offcanvas-body {
+  background-color: #DBF0D8;
+  padding: 16px 24px;
+}
+
+.mi-menu-inicio {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mi-menu-inicio li a.nav-link {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: "Phudu", serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #1a2e1a;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.mi-menu-inicio li:hover a,
+.mi-menu-inicio li a.nav-link:hover {
+  background-color: #7BC87B;
+  color: #0f1f0f;
+  text-decoration: none;
+  border-radius: 10px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.mi-menu-inicio li a.nav-link.active {
+  background-color: #367C36;
+  color: #f0faf0;
+}
+
+/* ---------- MAIN ---------- */
+main {
+  flex: 1;
+  padding: 32px 24px;
+}
+
+/* ---------- CARDS DEL INICIO (plantas.html) ---------- */
+#misplantas,
+#misterrarios,
+#miscuidados {
+  max-width: 640px;
+  margin: 0 auto 20px auto;
+}
+
+#misplantas button,
+#misterrarios button,
+#miscuidados button {
+  width: 100%;
+  height: 140px;
+  background: #fff;
+  border: 2px solid #b8ddb8;
+  border-radius: 16px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  cursor: pointer;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.15s;
+  box-shadow: 0 2px 8px rgba(54, 124, 54, 0.08);
+  margin: 0;
+  background-image: none;
+  flex-direction: row;
+  text-align: left;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
+#misplantas button:hover,
+#misterrarios button:hover,
+#miscuidados button:hover {
+  border-color: #367C36;
+  box-shadow: 0 6px 24px rgba(54, 124, 54, 0.18);
+  transform: translateY(-2px);
+  opacity: 1;
+  background-color: #f4fbf4;
+}
+
+#misplantas button:hover {
+  background-image: none;
+}
+#misterrarios button:hover {
+  background-image: none;
+}
+#miscuidados button:hover {
+  background-image: none;
+}
+
+/* Icono visual para cada card */
+#misplantas button::before {
+  content: "🌿";
+  font-size: 2.8rem;
+  flex-shrink: 0;
+}
+#misterrarios button::before {
+  content: "🪴";
+  font-size: 2.8rem;
+  flex-shrink: 0;
+}
+#miscuidados button::before {
+  content: "💧";
+  font-size: 2.8rem;
+  flex-shrink: 0;
+}
+
+#misplantas button span,
+#misterrarios button span,
+#miscuidados button span {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: static;
+  z-index: auto;
+}
+
+#misplantas button h2,
+#misterrarios button h2,
+#miscuidados button h2 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1a2e1a;
+  margin: 0;
+}
+
+#misplantas button p,
+#misterrarios button p,
+#miscuidados button p {
+  font-size: 0.9rem;
+  color: #4a6e4a;
+  margin: 0;
+}
+
+/* ---------- SECCIÓN POSESIÓN (tablas) ---------- */
+#posesion, #cuidados {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .tabla-contenedor {
-    width: 95%;
-    margin: 0 auto;
-    overflow-x: auto;                   
-    overflow-y: auto;                   
-    max-height: 400px;                  
-    -webkit-overflow-scrolling: touch; 
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 480px;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(54, 124, 54, 0.1);
 }
 
 table {
-    width: 95%;
-    min-width: 500px;    
-    border-radius: 10px;
-    border-collapse: separate;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    margin: 20px;
-    padding: 10px;
-    text-align: center;
-    table-layout: fixed; 
-}
-
-
-th, td {
-    text-align: center;
-    margin: 10px;
-    padding: 6px 4px;    
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    text-overflow: ellipsis; /*si el texto no cabe, muestra "..."*/
-    white-space: nowrap;
-}
-
-.desplegable {
-  margin: 10%;
-}
-
-.despleg-tipo, #despleg-ubi, #despleg-estado, tr.marcada{
-  width: 65%;
-}
-
-#miTabla input[type="text"],
-#miTabla input[type="date"] {
-    width: 100%;
-    padding: 2px;
-    margin: 0;
-    box-sizing: border-box;
+  width: 95%;
+  min-width: 600px;
+  border-radius: 14px;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 2px 16px rgba(54, 124, 54, 0.1);
+  margin: 24px auto;
+  table-layout: fixed;
+  background: #fff;
+  overflow: hidden;
 }
 
 thead {
-    position: sticky;
-    top: 0;
-    background-color: rgb(54, 124, 54);
-    z-index: 1;
+  position: sticky;
+  top: 0;
+  background-color: #367C36;
+  z-index: 1;
 }
 
-#miTabla tr.marcada {
-    background-color: rgba(164, 89, 89, 0.2);
-    outline: 2px solid rgb(183, 73, 73);
-    border-radius: 10px;
-}
-
-#filas, #borrar-filas {
-  background-color: rgb(123, 200, 123);
-  color: black;
+thead th {
+  background-color: #367C36;
+  color: #f0faf0;
+  font-family: "Phudu", serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
+  padding: 14px 10px;
   text-align: center;
-  max-width: 30px;
-  height: 30px;
-  margin: 0.5%;
-  padding: 10px;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  white-space: normal;
+}
+
+thead th:first-child {
+  border-radius: 14px 0 0 0;
+}
+
+thead th:last-child {
+  border-radius: 0 14px 0 0;
+}
+
+tbody tr {
+  transition: background-color 0.15s;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f4fbf4;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+tbody tr:hover {
+  background-color: #e8f5e8;
+}
+
+th, td {
+  text-align: center;
+  padding: 10px 8px;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-bottom: 1px solid #e0eee0;
+}
+
+td {
+  font-size: 0.88rem;
+}
+
+/* ---------- INPUTS DENTRO DE TABLA ---------- */
+#miTabla input[type="text"],
+#miTabla input[type="date"] {
+  width: 100%;
+  padding: 6px 8px;
+  margin: 0;
   box-sizing: border-box;
+  border: 1px solid #c5dfc5;
+  border-radius: 8px;
+  background-color: #f4fbf4;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.85rem;
+  color: #1a2e1a;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  text-align: center;
 }
 
-/*Cuidado vencido*/
-.vencido {
-    background-color: rgba(164, 89, 89, 0.2);
-    color: rgb(150, 30, 30);
-    font-weight: bold;
-}
-
-.mi-menu-inicio li:hover a {
-  visibility: visible;
-  opacity: 1;
-  text-decoration: none;
-  background-color: rgb(123, 200, 123);
-  border-radius: 10px;
+#miTabla input[type="text"]:focus,
+#miTabla input[type="date"]:focus {
+  outline: none;
+  border-color: #367C36;
+  box-shadow: 0 0 0 3px rgba(54, 124, 54, 0.12);
 }
 
 input[type="text"] {
   border-radius: 10px;
-  padding: 2%;
-  margin-right: 15%;
-  background-color:rgb(219, 237, 216);
-  border-color: transparent;
+  padding: 8px 12px;
+  background-color: #f4fbf4;
+  border: 1px solid #c5dfc5;
+  color: #1a2e1a;
   text-align: center;
-}
-  
-input[type="date"] {
-  border-radius: 10px;
-  padding: 2%;
-  margin-right: 15%;
-  background-color: rgb(219, 237, 216);
-  border-color: transparent;
-  text-align: center;
-}
-  
-input[type="file"] {
-  padding: 1%;
-  margin: 3%;
+  transition: border-color 0.2s;
 }
 
+input[type="text"]:focus {
+  outline: none;
+  border-color: #367C36;
+}
+
+input[type="date"] {
+  border-radius: 10px;
+  padding: 8px 12px;
+  background-color: #f4fbf4;
+  border: 1px solid #c5dfc5;
+  color: #1a2e1a;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+input[type="date"]:focus {
+  outline: none;
+  border-color: #367C36;
+}
+
+input[type="file"] {
+  padding: 4px;
+  font-size: 0.8rem;
+  max-width: 100%;
+}
+
+/* ---------- SELECTS ---------- */
+.despleg-tipo,
+#despleg-ubi,
+#despleg-estado {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #c5dfc5;
+  border-radius: 8px;
+  background-color: #f4fbf4;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.85rem;
+  color: #1a2e1a;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  appearance: auto;
+}
+
+.despleg-tipo:focus,
+#despleg-ubi:focus,
+#despleg-estado:focus {
+  outline: none;
+  border-color: #367C36;
+  box-shadow: 0 0 0 3px rgba(54, 124, 54, 0.12);
+}
+
+.desplegable {
+  margin: 0;
+}
+
+/* ---------- BOTONES DE ACCIÓN ---------- */
+
+/* Botón + (agregar fila) */
+#filas {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background-color: #7BC87B;
+  color: #0f1f0f;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px;
+  padding: 0;
+  transition: background-color 0.2s, transform 0.15s;
+  box-shadow: 0 2px 6px rgba(54, 124, 54, 0.2);
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
+#filas:hover {
+  background-color: #367C36;
+  color: #fff;
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+/* Botón 🗑️ (eliminar fila) */
+#borrar-filas {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background-color: #f4e0e0;
+  color: #8b3333;
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px;
+  padding: 0;
+  transition: background-color 0.2s, transform 0.15s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
+#borrar-filas:hover {
+  background-color: #e8b0b0;
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+/* Botón Guardar cambios */
+#btn-guardar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 28px;
+  height: 44px;
+  width: auto;
+  border-radius: 12px;
+  border: none;
+  background-color: #367C36;
+  color: #f0faf0;
+  font-family: "Phudu", serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin: 8px 4px;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  box-shadow: 0 2px 8px rgba(54, 124, 54, 0.25);
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
+#btn-guardar:hover {
+  background-color: #2a6030;
+  box-shadow: 0 4px 16px rgba(54, 124, 54, 0.35);
+  transform: translateY(-1px);
+  opacity: 1;
+}
+
+/* ---------- BARRA ACCIÓN (debajo de tabla) ---------- */
+.acciones-tabla {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 16px 24px;
+}
+
+/* ---------- FILA MARCADA ---------- */
+#miTabla tr.marcada {
+  background-color: rgba(180, 80, 80, 0.08) !important;
+  outline: 2px solid rgba(183, 73, 73, 0.5);
+}
+
+/* ---------- CUIDADO VENCIDO ---------- */
+.vencido {
+  background-color: rgba(180, 80, 80, 0.1);
+  color: rgb(150, 30, 30);
+  font-weight: 700;
+}
+
+/* ---------- CUIDADOS PAGE ---------- */
+#riego, #fertilizacion, #tierra, .texto-cuidados {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 5%;
+}
+
+.texto-cuidados h2 {
+  font-size: 1.5rem;
+  color: #1a2e1a;
+  margin-bottom: 8px;
+}
+
+/* ---------- SPAN (for icons inside buttons) ---------- */
+span {
+  position: static;
+  z-index: auto;
+}
+
+/* ---------- FOOTER ---------- */
 footer {
-  background-color: rgb(54, 124, 54);
+  background-color: #367C36;
   text-align: center;
   width: 100%;
-  height: 50px;
+  height: 52px;
   display: flex;
   justify-content: center;
-  align-items:end;
+  align-items: center;
+  margin-top: auto;
+}
+
+footer p {
+  color: rgba(240, 250, 240, 0.75);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* ---------- INICIO / HERO SECTION ---------- */
+.inicio {
+  font-family: "Phudu", serif;
+  font-style: bold;
+  font-size: large;
+  text-align: right;
+  margin: 10%;
+  padding: 10%;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 600px) {
+  .fondo {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    gap: 8px;
+  }
+
+  #titulo {
+    font-size: 1.5rem;
+    order: 1;
+    flex: 0 0 auto;
+  }
+
+  .search {
+    order: 3;
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .bg-body-tertiary {
+    order: 2;
+  }
+
+  #misplantas button,
+  #misterrarios button,
+  #miscuidados button {
+    height: 110px;
+    padding: 0 20px;
+  }
+
+  main {
+    padding: 20px 12px;
+  }
 }
