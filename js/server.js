@@ -26,7 +26,7 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "Content-Type");
     next();
 });
-app.use(express.static(__dirname)); //permite al navegador cargar HTML directamente
+app.use(express.static(path.join(__dirname, '..'))); //permite al navegador cargar HTML directamente
 app.use(express.json()); //analizador para JSON
 app.use(bodyParser.urlencoded({extended: true})); //analizador para datos de formulario
 app.use('/uploads', express.static('uploads'));
@@ -298,5 +298,5 @@ app.get('/api/cuidados/pendientes/terrarios', async (req, res) => {
 //app.listen: Escucha conexiones entrantes en el puerto especificado
 app.listen(PORT, () => {
     console.log(`Servidor de Mi Jardín corriendo en http://localhost:${PORT}`);
-    console.log(`Accede a la página principal en http://localhost:${PORT}/public/MisPlantas.html`);
+    console.log(`Accede a la página principal en http://localhost:${PORT}/MisPlantas.html`);
 });
