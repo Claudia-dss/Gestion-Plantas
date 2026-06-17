@@ -14,6 +14,10 @@ const path = require('path');
 const app = express(); //iniciamos app
 const PORT = 3000; //puerto de mi servidor
 
+//importamos IA
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const clienteIA = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
 //configuramos Express para servir archivos estáticos:
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*"); // Permite peticiones de cualquier origen
@@ -179,6 +183,44 @@ app.post('/api/terrarios', upload.single('foto'), async (req, res) => {
     }
 });
 
+app.post('/api/diagnostico', async (req, res) => {
+    const { imagen } = req.body;
+
+    if (!imagen) {
+    return res.status(400).json({ message: 'No se recibió ninguna imagen.' });
+    }
+
+  // Eliminamos el prefijo "data:image/jpeg;base64,"
+    const base64Limpio = imagen.replace(/^data:image\/\w+;base64,/, '');
+
+    try {
+    // gemini-1.5-flash es el modelo más rápido y está disponible en el nivel gratuito
+    const modelo = clienteIA.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+    const resultado = await modelo.generateContent([
+        {
+        inlineData: {
+            data: base64Limpio,
+            mimeType: 'image/jpeg'
+            }
+        },
+        `Eres un experto en plantas de interior y exterior.
+        Analiza esta foto de una planta y dime:
+        1. Qué tipo de planta parece ser (si puedes identificarla)
+        2. Qué problemas visibles tiene (hojas amarillas, manchas, tallos débiles, tierra seca, exceso de agua, etc.)
+        3. Cuál es probablemente la causa (falta de riego, exceso de riego, falta de luz, exceso de sol, plagas, enfermedad fúngica, falta de nutrientes)
+        4. Qué debe hacer el usuario para solucionarlo, paso a paso
+        Responde en español, de forma clara y amigable. Si la imagen no muestra una planta, indícalo.`
+        ]);
+
+    const diagnostico = resultado.response.text();
+    res.status(200).json({ diagnostico });
+
+    } catch (error) {
+    console.error('Error al llamar a Gemini:', error);
+    res.status(500).json({ message: 'Error al analizar la imagen.', error: error.message });
+    }
+});
 
 app.put('/api/cuidados/:id_terrario', async (req, res) => {
     const terrarioId = req.params.id_terrario;

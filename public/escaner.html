@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escáner de Plantas — Mi Jardín</title>
+    <link href="https://fonts.googleapis.com/css2?family=Phudu:wght@300..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+
+</head>
+<body>
+    <header>
+    <div class="fondo">
+        <h1 id="titulo">Mi Jardín</h1>
+        <div class="search">
+            <input type="text" id="buscador" placeholder="Buscar planta...">
+            <button type="button" class="btn-buscador">Buscar</button>
+        </div>
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+                    <div class="offcanvas-header">
+                    <h5 class="offcanvas-title">Menú</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas">X</button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="mi-menu-inicio">
+                            <li><a class="nav-link active" href="escaner.html">Escáner IA</a></li>
+                            <li><a class="nav-link" href="plantas.html">Inicio</a></li>
+                            <li><a class="nav-link" href="MisPlantas.html">Mis Plantas</a></li>
+                            <li><a class="nav-link" href="MisTerrarios.html">Mis Terrarios</a></li>
+                            <li><a class="nav-link" href="Cuidados.html">Cuidados</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    </header>
+
+    <main style="display:flex; flex-direction:column; align-items:center; gap:20px; padding: 32px 16px;">
+    <h2>🔍 Diagnóstico con IA</h2>
+        <p style="text-align:center; color:#4a6e4a; max-width:400px;">
+        Apunta la cámara a tu planta, haz una foto y la IA te dirá qué le ocurre.
+        </p>
+
+    <!-- Visor de la cámara en vivo -->
+    <video id="visor-camara" autoplay playsinline></video>
+
+    <!-- Canvas oculto para capturar el fotograma -->
+    <canvas id="canvas-captura"></canvas>
+
+    <!-- Imagen capturada (se muestra al hacer foto) -->
+    <img id="preview-captura" alt="Foto capturada">
+
+    <div class="controles">
+        <button id="btn-capturar" class="btn-escaner" onclick="capturarFoto()">📷 Hacer foto</button>
+        <button id="btn-repetir"  class="btn-escaner" onclick="repetirFoto()">🔄 Repetir</button>
+        <button id="btn-analizar" class="btn-escaner" onclick="analizarPlanta()">🌿 Analizar con IA</button>
+    </div>
+
+    <p id="estado-ia">⏳ Analizando tu planta...</p>
+
+    <div id="panel-resultado"></div>
+    </main>
+
+    <footer><p>&copy; 2025. Mi jardín.</p></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="escaner.js"></script>
+</body>
+</html>
