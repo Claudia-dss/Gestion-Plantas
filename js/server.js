@@ -7,6 +7,10 @@ const bodyParser = require('body-parser');
 //importamos la conexion a la bbdd
 const db = require('./conexion-bd.js');
 
+//importamos multer para poder subir fotos
+const multer = require('multer');
+const path = require('path');
+
 const app = express(); //iniciamos app
 const PORT = 3000; //puerto de mi servidor
 
@@ -20,6 +24,22 @@ app.use((req, res, next) => {
 app.use(express.static(__dirname)); //permite al navegador cargar HTML directamente
 app.use(express.json()); //analizador para JSON
 app.use(bodyParser.urlencoded({extended: true})); //analizador para datos de formulario
+app.use('/uploads', express.static('uploads'));
+
+//donde y cómo guardamos los archivos de fotos
+const almacenamiento = multer.diskStorage({
+    destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // carpeta donde se guardan las fotos
+    },
+    filename: function (req, file, cb) {
+    // Nombre único: timestamp + extensión original
+    const nombreUnico = Date.now() + path.extname(file.originalname);
+    cb(null, nombreUnico);
+    }
+});
+
+const upload = multer({ storage: almacenamiento });
+
 
 //Funciones para ejecutar consultas de SQL de forma limpia y asincrona
 function queryDB(sql, values = []){
