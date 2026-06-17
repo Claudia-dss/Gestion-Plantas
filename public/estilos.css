@@ -51,7 +51,7 @@ header {
 }
 
 #titulo {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 900;
   color: #f0faf0;
   letter-spacing: -0.5px;
@@ -245,14 +245,16 @@ main {
 /* ---------- CARDS DEL INICIO (plantas.html) ---------- */
 #misplantas,
 #misterrarios,
-#miscuidados {
+#miscuidados,
+#escaner {
   max-width: 640px;
   margin: 0 auto 20px auto;
 }
 
 #misplantas button,
 #misterrarios button,
-#miscuidados button {
+#miscuidados button,
+#escaner button {
   width: 100%;
   height: 140px;
   background: #fff;
@@ -277,7 +279,8 @@ main {
 
 #misplantas button:hover,
 #misterrarios button:hover,
-#miscuidados button:hover {
+#miscuidados button:hover,
+#escaner button:hover {
   border-color: #367C36;
   box-shadow: 0 6px 24px rgba(54, 124, 54, 0.18);
   transform: translateY(-2px);
@@ -292,6 +295,9 @@ main {
   background-image: none;
 }
 #miscuidados button:hover {
+  background-image: none;
+}
+#escaner button:hover {
   background-image: none;
 }
 
@@ -311,10 +317,16 @@ main {
   font-size: 2.8rem;
   flex-shrink: 0;
 }
+#escaner button::before {
+  content: "🔍";
+  font-size: 2.8rem;
+  flex-shrink: 0;
+}
 
 #misplantas button span,
 #misterrarios button span,
-#miscuidados button span {
+#miscuidados button span,
+#escaner button span{
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -324,7 +336,8 @@ main {
 
 #misplantas button h2,
 #misterrarios button h2,
-#miscuidados button h2 {
+#miscuidados button h2,
+#escaner button h2 {
   font-size: 1.25rem;
   font-weight: 800;
   color: #1a2e1a;
@@ -333,7 +346,8 @@ main {
 
 #misplantas button p,
 #misterrarios button p,
-#miscuidados button p {
+#miscuidados button p,
+#escaner button p {
   font-size: 0.9rem;
   color: #4a6e4a;
   margin: 0;
