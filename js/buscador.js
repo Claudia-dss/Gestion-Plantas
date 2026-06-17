@@ -13,9 +13,9 @@ function buscarPlanta() {
 
         //Comparamos si el nombre contiene el termino buscado, sino ocultamos.
         if (nombrePlanta.includes(termino)){
-            fila.computedStyleMap.display = ""; //muestra la fila
+            fila.style.display = ""; //muestra la fila
         } else {
-            fila.computedStyleMap.display = "none"; //la oculta
+            fila.style.display = "none"; //la oculta
         }
     });
 

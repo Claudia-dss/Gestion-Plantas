@@ -1,3 +1,4 @@
+require('dotenv').config();
 //importamos express
 const express = require('express');
 
@@ -261,17 +262,20 @@ app.put('/api/cuidados/:id_terrario', async (req, res) => {
 
 //endpoint para obntener las plantas que necesitan cuidados
 app.get('/api/cuidados/pendientes', async (req, res) => {
-    // La función NOW() en MySQL obtiene la fecha y hora actual.
-    // Se seleccionan las plantas donde la fecha de 'próximo riego' es anterior o igual a hoy.
-    const sql = ` SELECT nombre, proximo_riego, ultima_fertilizacion, proxima_fertilizacion, proximo_cambio_tierra, ultima_pulverizacion, proxima_pulverizacion
+    const sql = `
+        SELECT nombre, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra
         FROM plantas
-        WHERE proximo_riego <= NOW() OR proxima_fertilizacion <= NOW() OR proximo_cambio_tierra <= NOW() OR proxima_pulverizacion <= NOW()`;
+        WHERE 
+            DATE_ADD(ultimo_riego, INTERVAL 15 DAY) <= NOW()
+            OR DATE_ADD(ultimo_fertilizante, INTERVAL 30 DAY) <= NOW()
+            OR DATE_ADD(ultimo_cambio_tierra, INTERVAL 365 DAY) <= NOW()
+    `;
     try {
         const plantasPendientes = await queryDB(sql);
-        res.status(200).json(plantasPendientes); //.json para que la respuesta sea más legible
+        res.status(200).json(plantasPendientes);
     } catch(error) {
         console.error('Error al obtener los Cuidados pendientes:', error);
-        res.status(500).json({message: 'Error al obtener los Cuidados pendientes.', error: error.message})
+        res.status(500).json({ message: 'Error al obtener los Cuidados pendientes.', error: error.message });
     }
 });
 

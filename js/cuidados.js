@@ -18,8 +18,8 @@ function formatearFecha(fecha){
     return new Date(fecha).toLocaleDateString('es-ES');
 }
 
-function proxCuidado(fechaUltima, intervaloDias){
-    if(!ultimaFecha) return '-';
+function proximaCita(fechaUltima, intervaloDias){
+    if(!fechaUltima) return '-';
     const proxima = new Date(fechaUltima);
     proxima.setDate(proxima.getDate() + intervaloDias);
     return proxima.toLocaleDateString('es-ES');
@@ -35,12 +35,12 @@ async function cargarCuidadosPend() {
 
         const plantasVencidas = plantas.filter(p =>
             vencido(p.ultimo_riego, INTERVALO_RIEGO) ||
-            vencido(p.ultima_fertilizacion, INTERVALO_FERTILIZACION) ||
+            vencido(p.ultimo_fertilizante, INTERVALO_FERTILIZACION) ||
             vencido(p.ultimo_cambio_tierra, INTERVALO_TIERRA) ||
             vencido(p.ultima_pulverizacion, INTERVALO_PULVER)
         );
 
-        if(plantasVencidas.lenght === 0){
+        if(plantasVencidas.length === 0){
             tbody.innerHTML = `<tr><td colspan="9">¡Todas las plantas están al día!</td></tr>`;
             return;
         }
@@ -72,4 +72,4 @@ async function cargarCuidadosPend() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', cargarCuidadosPendientes);
+document.addEventListener('DOMContentLoaded', cargarCuidadosPend);
