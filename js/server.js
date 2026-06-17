@@ -57,8 +57,10 @@ function queryDB(sql, values = []){
 
 //API endpoint para guardar una nueva planta desde misPlantas.html. ASYNC=devuelve promesa automática y maneja peticiones de HTTP.
     //req=contiene la info de la peticion solicitada. res=objeto para enviar la respuesta solicitada.
-app.post('/api/plantas', async (req, res) => {
+app.post('/api/plantas', upload.single('foto'), async (req, res) => {
     const plantasRecibidas = req.body; // Recibimos el array enviado desde el frontend [1]
+
+    const rutaFoto = req.file ? 'uploads/' + req.file.filename : null;
 
     // Validamos que recibimos datos
     if (!Array.isArray(plantasRecibidas)) {
@@ -147,9 +149,10 @@ app.put('/api/cuidados/:id_planta', async (req, res) => {
 });
 
 
-app.post('/api/terrarios', async (req, res) => {
+app.post('/api/terrarios', upload.single('foto'), async (req, res) => {
 
     const {nombre, adquirida, foto, ubicacion, estado} = req.body;
+    const rutaFoto = req.file ? 'uploads/' + req.file.filename : null;
 
     if (!nombre || !estado) {
         return res.status(400).json({ error: "Faltan campos obligatorios para el registro" });

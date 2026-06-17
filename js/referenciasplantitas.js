@@ -69,67 +69,88 @@ function crearFila(planta = null) {
 
     tbody.appendChild(fila);
     return fila;
+
+    const inputFoto = fila.querySelector('input[type="file"]');
+    const tdFoto = fila.cells[2];
+
+inputFoto.addEventListener('change', function () {
+    const archivo = this.files[0];
+    if (!archivo) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+    // Creamos una imagen pequeña de previsualización
+    let preview = tdFoto.querySelector('img');
+    if (!preview) {
+        preview = document.createElement('img');
+        preview.style.width = '50px';
+        preview.style.height = '50px';
+        preview.style.objectFit = 'cover';
+        preview.style.borderRadius = '6px';
+        preview.style.marginTop = '4px';
+        tdFoto.appendChild(preview);
+    }
+    preview.src = e.target.result; // base64 temporal solo para mostrar
+    };
+    reader.readAsDataURL(archivo);
+    });
 }
 
 async function guardarCambios() {
-
-    //obtenemos la fila donde están los inputs
     const tabla = document.getElementById('miTabla');
-    const tbody = tabla.querySelector('tbody'); 
-    const todasLasFilas = tbody.rows;
+    const todasLasFilas = tabla.querySelector('tbody').rows;
 
-    plantas = [];
-
-        if(todasLasFilas.length === 0){
-            alert("No hay filas para guardar.");
-            return;
-        }
+    if (todasLasFilas.length === 0) {
+    alert("No hay filas para guardar.");
+    return;
+    }
 
     for (let i = 0; i < todasLasFilas.length; i++) {
-        const celdas = todasLasFilas[i].querySelectorAll('input, select');
-        const nombreVal = celdas[0].value.trim();
+    const fila = todasLasFilas[i];
+    const celdas = fila.querySelectorAll('input, select');
 
-        if (nombreVal === "") {
-            alert("Error en la fila ${i + 1}: El nombre de la planta no puede estar vacío.");
-            celdas[0].focus();
-            return;
-        }
+    const nombreVal = celdas[0].value.trim();
+    if (nombreVal === "") {
+        alert(`Error en la fila ${i + 1}: el nombre no puede estar vacío.`);
+        celdas[0].focus();
+        return;
+    }
 
-    //extraemos valores de los inputs
-        const planta = {
-            nombre: nombreVal,
-            adquirida: celdas[1].value,
-            foto: celdas[2].value || "",
-            tipo: celdas[3].value,
-            ubicacion: celdas[4].value,
-            estado: celdas[5].value
-        };
+    // Empaqueta los datos como multipart/form-data
+    const formData = new FormData();
+    formData.append('nombre', nombreVal);
+    formData.append('adquirida', celdas[1].value);
     
-            plantas.push(planta);
-    };
+    const inputFoto = fila.querySelector('input[type="file"]');
+    if (inputFoto.files[0]) {
+      formData.append('foto', inputFoto.files[0]); // el archivo de verdad
+    }
+
+    formData.append('tipo', celdas[3].value);
+    formData.append('ubicacion', celdas[4].value);
+    formData.append('estado', celdas[5].value);
 
     try {
-        // Enviamos los datos al servidor mediante fetch
         const respuesta = await fetch('http://localhost:3000/api/plantas', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(plantas)
-        });
+        method: 'POST',
+        body: formData 
+    });
 
-        if (respuesta.ok) {
-            const resultado = await respuesta.json();
-            alert('¡Cambios guardados con éxito!');
-        } else {
-            const errorData = await respuesta.json();
-            console.error('Error al guardar:', errorData);
-            alert('Hubo un error al guardar los cambios.');
-        }
-    } catch (error) {
-        console.error('Error en la comunicación con el servidor:', error);
-        alert('No se pudo conectar con el servidor.');
+    if (!respuesta.ok) {
+        const error = await respuesta.json();
+        console.error('Error fila', i + 1, error);
+        alert(`Error al guardar la planta "${nombreVal}".`);
+        return;
     }
+
+    } catch (error) {
+        console.error('Error de conexión:', error);
+        alert('No se pudo conectar con el servidor.');
+        return;
+        }
+    }
+
+    alert('¡Todas las plantas guardadas con éxito!');
 }
 
 
