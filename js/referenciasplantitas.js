@@ -153,6 +153,73 @@ async function guardarCambios() {
     alert('¡Todas las plantas guardadas con éxito!');
 }
 
+async function cargarPlantas() {
+    try{
+        const respuesta = await fetch('http://localhost:3000/api/plantas');
+        const plantas = await respuesta.json();
+
+        const tbody = document.getElementById('miTabla').querySelector('tbody');
+        tbody.innetHTML = ''; //limpiamos tabla antes de rellenar
+
+        plantas.forEach(planta => {
+            const fila = document.createElement('tr');
+            fila.setAttribute('data-id', planta.id);
+
+            fila.innerHTML = `
+                <td><input type="text" value="${planta.nombre ?? ''}" data-field="nombre"></td>
+                <td><input type="date" value="${planta.adquirida ? planta.adquirida.split('T')[0] : ''}" data-field="adquirida"></td>
+                <td>
+                    ${planta.foto ? `<img src="/${planta.foto}" style="width:50px;height:50px;object-fit:cover;border-radius:6px;">` : '<input type="file" data-field="foto">'}
+                </td>
+                <td>
+                    <select data-field="tipo">
+                        <option value="">Selecciona un tipo</option>
+                        <option value="Suculenta" ${planta.tipo === 'Suculenta' ? 'selected' : ''}>Suculenta</option>
+                        <option value="Cactus" ${planta.tipo === 'Cactus' ? 'selected' : ''}>Cactus</option>
+                        <option value="Crasas" ${planta.tipo === 'Crasas' ? 'selected' : ''}>Crasas</option>
+                        <option value="Planta con flor" ${planta.tipo === 'Planta con flor' ? 'selected' : ''}>Planta con flor</option>
+                        <option value="Planta sin flor" ${planta.tipo === 'Planta sin flor' ? 'selected' : ''}>Planta sin flor</option>
+                        <option value="Planta acuática" ${planta.tipo === 'Planta acuática' ? 'selected' : ''}>Planta acuática</option>
+                        <option value="Árbol" ${planta.tipo === 'Árbol' ? 'selected' : ''}>Árbol</option>
+                        <option value="Hierba" ${planta.tipo === 'Hierba' ? 'selected' : ''}>Hierba</option>
+                    </select>
+                </td>
+                <td>
+                    <select data-field="ubicacion">
+                        <option value="">Selecciona ubicación</option>
+                        <option value="Salón" ${planta.ubicacion === 'Salón' ? 'selected' : ''}>Salón</option>
+                        <option value="Habitación" ${planta.ubicacion === 'Habitación' ? 'selected' : ''}>Habitación</option>
+                        <option value="Baño" ${planta.ubicacion === 'Baño' ? 'selected' : ''}>Baño</option>
+                        <option value="Cocina" ${planta.ubicacion === 'Cocina' ? 'selected' : ''}>Cocina</option>
+                        <option value="Terraza" ${planta.ubicacion === 'Terraza' ? 'selected' : ''}>Terraza</option>
+                    </select>
+                </td>
+                <td>
+                    <select data-field="estado">
+                        <option value="">Selecciona estado</option>
+                        <option value="Sana" ${planta.estado === 'Sana' ? 'selected' : ''}>Sana</option>
+                        <option value="Enferma" ${planta.estado === 'Enferma' ? 'selected' : ''}>Enferma</option>
+                        <option value="Muerta" ${planta.estado === 'Muerta' ? 'selected' : ''}>Muerta</option>
+                    </select>
+                </td>
+                <td><input type="date" value="${planta.ultimo_riego ? planta.ultimo_riego.split('T')[0] : ''}" data-field="ultimo_riego"></td>
+                <td><input type="date" value="${planta.ultimo_fertilizante ? planta.ultimo_fertilizante.split('T')[0] : ''}" data-field="ultimo_fertilizante"></td>
+                <td><input type="date" value="${planta.ultimo_cambio_tierra ? planta.ultimo_cambio_tierra.split('T')[0] : ''}" data-field="ultimo_cambio_tierra"></td>
+            `;
+
+            fila.addEventListener('click', function () {
+                document.querySelectorAll('#miTabla tr.marcada').forEach(f => f.classList.remove('marcada'));
+                this.classList.add('marcada');
+            });
+            
+            tbody.appendChild(fila);
+        });
+    } catch (error) {
+        console.error('Eror al cargar las plantas:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', cargarPlantas);
 
 
 function eliminarFilaSeleccionada() {

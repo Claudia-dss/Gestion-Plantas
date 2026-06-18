@@ -27,6 +27,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use(express.static(path.join(__dirname, '..', 'public'))); //permite al navegador cargar HTML directamente
+app.use('/js', express.static(path.join(__dirname)));
 app.use(express.json()); //analizador para JSON
 app.use(bodyParser.urlencoded({extended: true})); //analizador para datos de formulario
 app.use('/uploads', express.static('uploads'));
@@ -63,27 +64,19 @@ function queryDB(sql, values = []){
 //API endpoint para guardar una nueva planta desde misPlantas.html. ASYNC=devuelve promesa automática y maneja peticiones de HTTP.
     //req=contiene la info de la peticion solicitada. res=objeto para enviar la respuesta solicitada.
 app.post('/api/plantas', upload.single('foto'), async (req, res) => {
-    const plantasRecibidas = req.body; // Recibimos el array enviado desde el frontend [1]
-
+    const { nombre, adquirida, tipo, ubicacion, estado } = req.body;
     const rutaFoto = req.file ? 'uploads/' + req.file.filename : null;
 
-    // Validamos que recibimos datos
-    if (!Array.isArray(plantasRecibidas)) {
-        return res.status(400).json({ message: 'Formato de datos inválido, se esperaba un array.' });
+    if (!nombre) {
+        return res.status(400).json({ message: 'El nombre es obligatorio.' });
     }
 
-    try {
-        // Aquí usamos un bucle para insertar cada planta recibida [5]
-        for (const planta of plantasRecibidas) {
-            const { nombre, adquirida, foto, tipo, ubicacion, estado, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra } = planta;
-            
-            const sql = `INSERT INTO plantas (nombre, adquirida, foto, tipo, ubicacion, estado, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-            
-            await queryDB(sql,[nombre, adquirida, foto, tipo, ubicacion, estado, ultimo_riego, ultimo_fertilizante, ultimo_cambio_tierra]);
-        }
+    const sql = `INSERT INTO plantas (nombre, adquirida, foto, tipo, ubicacion, estado) 
+                VALUES (?, ?, ?, ?, ?, ?)`;
 
-        res.status(200).json({ message: 'Todas las plantas han sido guardadas correctamente.' });
+    try {
+        await queryDB(sql, [nombre, adquirida, rutaFoto, tipo, ubicacion, estado]);
+        res.status(200).json({ message: 'Planta guardada correctamente.' });
     } catch (error) {
         console.error('Error al guardar en la base de datos:', error);
         res.status(500).json({ message: 'Error interno del servidor.', error: error.message });
@@ -257,6 +250,30 @@ app.put('/api/cuidados/:id_terrario', async (req, res) => {
     } catch(error) {
         console.error('Error al actualizar Cuidados:', error);
         res.status(500).json({ message: 'Error al actualizar Cuidados.', error: error.message });
+    }
+});
+
+//endpoint para obntener las plantas al iniciar la app
+app.get('/api/plantas', async (req, res) => {
+    const sql = `SELECT * FROM plantas`;
+    try{
+        const plantas = await queryDB(sql);
+        res.status(200).json(plantas);
+    } catch (error) {
+        console.error('Error al obtener las plantas:', error);
+        res.status(500).json({ message: 'Error al obtener las plantas.', error: error.message });
+    }
+});
+
+//endpoint para obntener los terrarios al iniciar la app
+app.get('/api/terrarios', async (req, res) => {
+    const sql = `SELECT * FROM terrarios`;
+    try{
+        const terrarios = await queryDB(sql);
+        res.status(200).json(terrarios);
+    } catch (error) {
+        console.error('Error al obtener los terrarios:', error);
+        res.status(500).json({ message: 'Error al obtener los terrarios.', error: error.message });
     }
 });
 
