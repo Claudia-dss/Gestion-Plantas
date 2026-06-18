@@ -51,10 +51,10 @@ mi-jardin/
 │   ├── referenciasplantitas.js
 │   ├── referenciasterrarios.js
 │   ├── cuidados.js
+|   ├── conexion-bd.js            # Configuración de la base de datos
+|   ├── server.js                 # Servidor Express y endpoints de la API
 │   └── escaner.js
 ├── uploads/                  # Fotos subidas por el usuario (generada automáticamente)
-├── conexion-bd.js            # Configuración de la base de datos
-├── server.js                 # Servidor Express y endpoints de la API
 ├── .env                      # Variables de entorno (no subir a GitHub)
 ├── .gitignore
 └── README.md
