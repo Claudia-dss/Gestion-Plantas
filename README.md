@@ -159,14 +159,6 @@ node_modules/
 uploads/
 ```
 
----
-
-## 📸 Capturas de pantalla
-
-> *Añade aquí capturas de pantalla de la aplicación.*
-
----
-
 ## 📄 Licencia
 
 Este proyecto es de uso personal.
