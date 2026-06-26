@@ -1,7 +1,8 @@
 # 🌿 Mi Jardín
 
 Aplicación web para gestionar tus plantas y terrarios en casa. Registra tus plantas, lleva el control de sus cuidados y diagnostica sus problemas con inteligencia artificial.
-‼️La aplicación actualmente no está terminada.
+
+‼️La aplicación actualmente sigue en proceso de desarrollo.‼️.‼️
 ---
 
 ## ✨ Funcionalidades
