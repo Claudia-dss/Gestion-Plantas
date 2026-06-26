@@ -55,10 +55,14 @@ mi-jardin/
 |   ├── server.js                 # Servidor Express y endpoints de la API
 │   └── escaner.js
 ├── uploads/                  # Fotos subidas por el usuario (generada automáticamente)
-├── .env                      # Variables de entorno (no subir a GitHub)
+├── .env                      # Variables de entorno
 ├── .gitignore
 └── README.md
 ```
+
+## 🖼️ Capturas del proyecto
+
+
 
 ---
 
