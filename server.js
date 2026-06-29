@@ -26,7 +26,7 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "Content-Type");
     next();
 });
-app.use(express.static(path.join(__dirname, '..', 'public'))); //permite al navegador cargar HTML directamente
+app.use(express.static(path.join(__dirname, 'public'))); //permite al navegador cargar HTML directamente
 app.use('/js', express.static(path.join(__dirname)));
 app.use(express.json()); //analizador para JSON
 app.use(bodyParser.urlencoded({extended: true})); //analizador para datos de formulario
