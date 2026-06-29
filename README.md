@@ -2,6 +2,7 @@
 
 Aplicación web para gestionar tus plantas y terrarios en casa. Registra tus plantas, lleva el control de sus cuidados y diagnostica sus problemas con inteligencia artificial.
 
+‼️La aplicación actualmente sigue en proceso de desarrollo.‼️.‼️
 ---
 
 ## ✨ Funcionalidades
@@ -55,10 +56,14 @@ mi-jardin/
 |   ├── server.js                 # Servidor Express y endpoints de la API
 │   └── escaner.js
 ├── uploads/                  # Fotos subidas por el usuario (generada automáticamente)
-├── .env                      # Variables de entorno (no subir a GitHub)
+├── .env                      # Variables de entorno
 ├── .gitignore
 └── README.md
 ```
+
+## 🖼️ Capturas del proyecto
+
+
 
 ---
 
@@ -158,14 +163,6 @@ node_modules/
 .env
 uploads/
 ```
-
----
-
-## 📸 Capturas de pantalla
-
-> *Añade aquí capturas de pantalla de la aplicación.*
-
----
 
 ## 📄 Licencia
 
